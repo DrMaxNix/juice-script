@@ -11,3 +11,5 @@ I already wrote a interpreter for juice in php a year ago but I wanted it to be 
 This is an example of the old juicescript:
 
 ![Example](https://raw.githubusercontent.com/DrMaxNix/juice-script/main/pictures/oldjuice.png "Example")
+
+(Ignore the code itself making no sense and having horrible syntax and horrible syntax-highlighting, that's why I'm doing a second version)
