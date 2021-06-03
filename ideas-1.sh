@@ -1,35 +1,37 @@
 ## VARIABLES ##
 # $2 => $1
-mov $1 $2	|	set $1 $2
+mov|set $1 $2
 
 # load $1 from root scope into current scope
-glob $1
+glob|global|pub|public $1
 
 # vartypes:
-# null
-# bool
-# int
-# float
-# char
-# string => char[]
+null				# null
+true|false			# bool
+eg. -44 27 287634	# int
+eg. 4.0 -3.0 0.125	# float
+eg. "bla" 'blub'	# str
 
 
 
 ## MATH ##
-# $1 + $2 => $1
-add $1 $2
+# $1 + $2 + ... => $1
+add $1 $2 ...
 
-# $1 - $2 => $1
-sub $1 $2
+# $1 - ($2 + ...) => $1
+sub $1 $2 ...
 
-# $1 * $2 => $1
-mul $1 $2
+# $1 * $2 * ... => $1
+mul $1 $2 ...
 
-# $1 / $2 => $1
-div $1 $2
+# $1 / ($2 * ...) => $1
+div $1 $2 ...
 
-# $1 % $2 => $1
-mod $1 $2
+# $1 % $2 % ... => $1
+mod $1 $2 ...
+
+# $1 ^ $2 ^ ... => $1
+mod $1 $2 ...
 
 
 
@@ -56,10 +58,10 @@ ifn cond
 
 ## JUMPS ##
 # jump to line 42 (jumping to lines inside of other scopes is not allowed)
-jmp 42	|	goto 42
+jmp|jump|goto 42
 
 # jump to a flag called "flag1" (flags are stored per-scope)
-jmp "flag1"	|	goto "flag1"
+jmp|jump|goto "flag1"
 
 # set flag called "flag1"
 :flag1	|	:flag1:	|	flag1:
@@ -68,22 +70,22 @@ jmp "flag1"	|	goto "flag1"
 
 ## OUTPUT ##
 # print "blabliblub"
-drw "bla" "bli" "blub"	|	echo "bla" "bli" "blub"
+drw|draw|echo "bla" "bli" "blub"
 
 # initialize matrix with 16x16
-pxl size 16 16	|	pxl size 16
+pxl|pixel|canv|canvas size 16 16	|	pxl|pixel|canv|canvas size 16
 
 # set output resolution to 256x256
-pxl res 256 256	|	pxl res 256
+pxl|pixel|canv|canvas res 256 256	|	pxl|pixel|canv|canvas res 256
 
 # enable autodraw
-pxl autodraw true
+pxl|pixel|canv|canvas autodraw true
 
 # set pixel at 2|12 to color #F6F6F6
-pxl set 2 12 "F6"
+pxl|pixel|canv|canvas set 2 12 "F6"
 
 # update matrix to screen
-pxl draw
+pxl|pixel|canv|canvas draw
 
 
 
@@ -97,10 +99,10 @@ pxl draw
 
 # the function scope "myfunction1" starts here
 # argument $1 is readonly; $2 is read/write
-fcn myfunction1 $1 &2
+fcn|def myfunction1 $1 &2
 
 # current function scope ends here
-ncf
+end
 
 # call a function called "myfunction1"
 # arg $1 = 42; arg $2 = $test (returned to parent scope)
@@ -109,12 +111,12 @@ myfunction1 42 $test
 
 
 ## RETURN, END, ETC. ##
-# end the programm
-end	|	halt
+# halt the programm
+halt
 
 # return from function to parent scope
 # halt programm in root scope
-return
+exit|return|end
 
 
 
@@ -125,17 +127,54 @@ set $a []
 # set $a to list
 set $a [1, 5, 2345]
 
-# print 2nd element
-echo $a[1]
+# print 2nd element of 4th list
+echo $a[3][1]
 
 # remove 2nd element
 set $a[1] null
 
 # push element
-set $a[] "blabla"
+set $a[] "blabla"	|	add $a "blabla"
 
 # print last element
 echo $a[-1]
 
 # remove (and get) last element
 pop $a[-1]	|	pop $a[-1] $b
+
+# get list length
+len $list $length_num
+
+
+
+## EXTERNAL VALUES ##
+# get unix time
+time $time
+
+# get formated time
+time $time "YYYY-MM-DD"
+
+# get random integer between 0 and 3
+rnd|rand|random $num 3
+
+# get random integer between 5 and 13
+rnd|rand|random $num 5 13
+
+
+
+## STRING MANIPULATION ##
+# get string lenght
+len $string $length_num
+
+# concat strings => $a
+add $a $b ...
+
+# get substr 2(-5)
+slice|substr $string 2 5	|	slice|substr $string 2
+
+# repeat string
+mul $string 3
+
+# get position of first occourance of needle in haystack => $pos
+# $pos >= 0 if found; $pos = false if nothing found
+pos|strpos $haystack $needle $pos
