@@ -33,6 +33,21 @@ mod $1 $2 ...
 # $1 ^ $2 ^ ... => $1
 pow $1 $2 ...
 
+# root of $1 (power = $2; if not given: square-root) => $1
+root $1 $2
+
+# log of $1 (base = $2; if not given: base = 10) => $1
+log $1 $2
+
+# round to the nearest integer (.000 - .499 => round down; .500 - 0.999 => round up) => $1
+round $1
+
+# round up to the next integer => $1
+ceil $1
+
+# round down to the last integer => $1
+floor $1
+
 
 
 ## CONDITIONS ##
