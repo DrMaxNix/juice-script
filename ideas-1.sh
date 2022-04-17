@@ -108,10 +108,16 @@ jmp|jump|goto "flag1"
 
 
 
-## OUTPUT ##
+## TEXT IO ##
 # print "blabliblub"
 drw|draw|echo "bla" "bli" "blub"
 
+# print "blabliblub", await user response (until newline/enter) and return entered line as $1
+ask $1 "bla" "bli" "blub"
+
+
+
+## GRAPHICAL OUTPUT ##
 # initialize matrix with 16x16
 pxl|pixel|canv|canvas size 16 16	|	pxl|pixel|canv|canvas size 16
 
