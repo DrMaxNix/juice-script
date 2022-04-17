@@ -36,8 +36,8 @@ mov|set $1 $2
 glob|global|pub|public $1
 
 # vartypes (constants containing string of vartype name)
-null				# null
-true|false			# bool
+null			# null
+true|false		# bool
 eg. -44 27 287634	# int
 eg. 4.0 -3.0 0.125	# float
 eg. "bla" 'blub'	# str
