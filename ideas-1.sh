@@ -14,6 +14,19 @@ mov $a 42 ; comment
 mov /* Inline block comment */ $a 42
 
 
+## ESCAPE SEQUENCES AND INTEGER PREFIXES ##
+# in strings
+"\n"		# newline
+"\t"		# tab
+"\u2764\ufe0f"	# utf-8 for ❤️
+...
+
+# integers
+0x10		# hexadecimal:	16
+0o10		# octal:	8
+0b0100		# binary:	4
+
+
 
 ## VARIABLES ##
 # $2 => $1
@@ -209,6 +222,9 @@ rnd|rand|random $num 5 13
 
 
 ## STRING MANIPULATION ##
+# get utf-8 char with id $1
+chr $1	|	cast $1 str
+
 # get string lenght
 len $string $length_num
 
