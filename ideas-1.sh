@@ -22,12 +22,20 @@ mov|set $1 $2
 # load $1 from root scope into current scope
 glob|global|pub|public $1
 
-# vartypes
+# vartypes (constants containing string of vartype name)
 null				# null
 true|false			# bool
 eg. -44 27 287634	# int
 eg. 4.0 -3.0 0.125	# float
 eg. "bla" 'blub'	# str
+
+# vartype($1) => $1
+typ|type $1
+
+# cast $1 to type $2 / to int
+cst|cast $1 $2
+cst|cast $1 int
+
 
 
 
