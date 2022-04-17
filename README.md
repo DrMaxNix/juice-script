@@ -8,7 +8,7 @@
 Basic assembly-like high-level programming language
 
 ## Concept
-I already wrote an interpreter for juice in php a year ago but I wanted it to be more user friendly so I decided to redo it in javascript.
+I already wrote an interpreter for juice in php two years ago but I wanted it to be more user friendly so I decided to redo it in javascript.
 
 This is an example of the old juicescript:
 
