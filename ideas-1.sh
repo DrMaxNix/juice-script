@@ -1,3 +1,20 @@
+## COMMENTS ##
+# one-line comments (from prefix to EOL)
+mov $a 42 # comment
+mov $a 42 // comment
+mov $a 42 ; comment
+
+# block comments
+/*
+	Block comment
+*/
+
+/* Also a block comment */
+
+mov /* Inline block comment */ $a 42
+
+
+
 ## VARIABLES ##
 # $2 => $1
 mov|set $1 $2
@@ -5,7 +22,7 @@ mov|set $1 $2
 # load $1 from root scope into current scope
 glob|global|pub|public $1
 
-# vartypes:
+# vartypes
 null				# null
 true|false			# bool
 eg. -44 27 287634	# int
@@ -58,16 +75,16 @@ ifl cond
 ifn cond
 
 # cond:
-# x
-# !x
-# x == y
-# x != y
-# x === y
-# x !== y
-# x < y
-# x <= y
-# x > y
-# x >= y
+x
+!x
+x == y
+x != y
+x === y
+x !== y
+x < y
+x <= y
+x > y
+x >= y
 
 
 
