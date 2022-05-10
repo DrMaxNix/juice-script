@@ -49,6 +49,8 @@ typ|type $1
 cst|cast $1 $2
 cst|cast $1 int
 
+# use contents of a var as var-name (todo: is there a more assembly-like way for this?)
+${$name}
 
 
 
