@@ -155,12 +155,12 @@ pxl|pixel|canv|canvas draw
 # - they can call other functions
 # - their own vars are private
 # - they can't acces root-scope's vars (except they were made global using `glob`)
-# - args with $-prefix are copied into local scope
-# - args with &-prefix are passed to parent scope
+# - args are copied into local scope
+# - args with &-prefix modify corresponding var in global scope
 
 # the function scope "myfunction1" starts here
 # argument $1 is readonly; $2 is read/write
-fcn|def myfunction1 $1 &2
+fcn|def myfunction1 $1 &$2
 
 # current function scope ends here
 end
