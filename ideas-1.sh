@@ -15,7 +15,7 @@ mov /* Inline block comment */ $a 42
 
 
 ## ESCAPE SEQUENCES AND INTEGER PREFIXES ##
-# in strings
+# in strings (only those in double quotes)
 "\n"		# newline
 "\t"		# tab
 "\u2764\ufe0f"	# utf-8 for ❤️
