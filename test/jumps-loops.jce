@@ -1,0 +1,7 @@
+move $q 0
+loop:
+	echo $q
+
+add $q 1
+ifl $q < 10
+	jump "loop"

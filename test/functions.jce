@@ -1,0 +1,12 @@
+def test $text $varname &$printed
+	global ${$varname}
+	mov $printed true
+	echo $text " " ${$varname}
+end
+
+mov $b 42
+mov $printed false
+
+drw "printed? " $printed
+test "value of b is:" $b $printed
+drw "printed? " $printed
