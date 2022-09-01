@@ -194,7 +194,7 @@ set $a [1, 5, 2345]
 # print 2nd element of 4th list
 echo $a[3][1]
 
-# remove 2nd element
+# remove 2nd element (maintaining key association)
 set $a[1] null
 
 # push element
@@ -203,7 +203,7 @@ set $a[] "blabla"	|	add $a "blabla"
 # print last element
 echo $a[-1]
 
-# remove (and get) last element
+# remove (and get) last element (keys will be re-ordered)
 pop $a[-1]	|	pop $a[-1] $b
 
 # get list length
