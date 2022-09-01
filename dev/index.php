@@ -54,7 +54,7 @@
 		</style>
 		
 		<script type="text/javascript">
-			<?php require("juicescript.js"); ?>
+			<?php require("../juicescript.js"); ?>
 		</script>
 		
 		<script type="text/javascript">
