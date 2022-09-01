@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>Juicescript dev env</title>
+		
+		<style>
+			:root {
+				--onedark-bg: #21252b;
+				--onedark-bg-light: #2c313a;
+				--onedark-white: #c5cad3;
+				--onedark-gray: #828997;
+				--onedark-gray-dark: #5c6370;
+				--onedark-red: #e06c75;
+				--onedark-orange: #d19a66;
+				--onedark-yellow: #e5c07b;
+				--onedark-green: #98c379;
+				--onedark-cyan: #56b6c2;
+				--onedark-blue: #61afef;
+				--onedark-purple: #c678dd;
+			}
+			html, body {
+				margin: 0px;
+				padding: 0px;
+			}
+			body {
+				background-color: var(--onedark-bg);
+			}
+			div.text-output-container {
+				height: calc(100vh - 4rem - 4px);
+				width: calc(100vw - 4rem - 4px);
+				padding: 2rem;
+			}
+			#text-output-area {
+				height: calc(100% - 2rem);
+				width: calc(100% - 2rem);
+				padding: 1rem;
+				margin: 0px;
+				
+				overflow: auto;
+				font-size: 1rem;
+				
+				background-color: var(--onedark-bg-light);
+				border: none;
+			}
+			span.line {
+				display: block;
+				color: var(--onedark-white);
+			}
+			span.line.stderr-debug { color: var(--onedark-green); }
+			span.line.stderr-info { color: var(--onedark-blue); }
+			span.line.stderr-warning { color: var(--onedark-orange); }
+			span.line.stderr-error { color: var(--onedark-red); }
+		</style>
+		
+		<script type="text/javascript">
+			<?php require("juicescript.js"); ?>
+		</script>
+		
+		<script type="text/javascript">
+			var juice_program = <?php echo(json_encode(file_get_contents("juice-program.jce"))); ?>;
+		</script>
+		
+		<script type="text/javascript">
+			var my_output_callback = function(text){
+				var line_list = text.split("\n");
+				
+				for(var one_line of line_list){
+					var span_one_line = document.createElement("span");
+					
+					span_one_line.classList.add("line");
+					span_one_line.textContent = one_line;
+					
+					document.getElementById("text-output-area").appendChild(span_one_line);
+				}
+			}
+			var my_error_callback = function(text, type){
+				var span_one_line = document.createElement("span");
+				
+				span_one_line.classList.add("line", "stderr-" + type);
+				span_one_line.textContent = text;
+				
+				document.getElementById("text-output-area").appendChild(span_one_line);
+			}
+			
+			var juicescript = new Juicescript({
+				callback: {
+					stdout: my_output_callback,
+					stderr: my_error_callback
+				}
+			});
+			juicescript.parse(juice_program);
+			
+			document.addEventListener("DOMContentLoaded", function(){
+				juicescript.run();
+			});
+		</script>
+	</head>
+	<body>
+		<div class="text-output-container">
+			<pre id="text-output-area"></pre>
+		</div>
+	</body>
+</html>
