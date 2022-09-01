@@ -41,7 +41,6 @@ class Juicescript {
 	
 	
 	
-	
 	io_stdout(text){
 		this.callback.stdout(text);
 	}
