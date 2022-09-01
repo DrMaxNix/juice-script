@@ -45,7 +45,7 @@ eg. "bla" 'blub'	# str
 # vartype($1) => $1
 typ|type $1
 
-# cast $1 to type $2 / to int
+# cast $1 to type-string stored in $2 / to int
 cst|cast $1 $2
 cst|cast $1 int
 
