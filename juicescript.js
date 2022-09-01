@@ -1,4 +1,4 @@
-/*! Juicescript.js v1.0.0 | (c) DrMaxNix 2022 | juice.drmaxnix.de */
+/*! Juicescript.js v1.0.0-a | (c) DrMaxNix 2022 | juice.drmaxnix.de */
 
 class Juicescript {
 	/*
