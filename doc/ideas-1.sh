@@ -47,6 +47,7 @@ typ|type $1
 
 # cast $1 to type-string stored in $2 / to int
 cst|cast $1 $2
+cst|cast $1 "int"
 cst|cast $1 int
 
 # use contents of a var as var-name (todo: is there a more assembly-like way for this?)
