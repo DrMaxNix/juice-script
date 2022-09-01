@@ -207,7 +207,7 @@ echo $a[-1]
 pop $a[-1]	|	pop $a[-1] $b
 
 # get list length
-len $list $length_num
+len $length_num $list
 
 
 
@@ -231,17 +231,17 @@ rnd|rand|random $num 5 13
 chr $1	|	cast $1 str
 
 # get string lenght
-len $string $length_num
+len $length_num $string
 
 # concat strings => $a
 add $a $b ...
 
-# get substr 2(-5)
+# get substr 2(-5) => $string
 slice|substr $string 2 5	|	slice|substr $string 2
 
-# repeat string
+# repeat string => $string
 mul $string 3
 
 # get position of first occourance of needle in haystack => $pos
 # $pos >= 0 if found; $pos = false if nothing found
-pos|strpos $haystack $needle $pos
+pos|strpos $pos $haystack $needle
