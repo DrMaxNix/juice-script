@@ -183,6 +183,8 @@ exit|return|end
 
 
 ## LISTS ##
+# - if a list index is undefined, its value will be `null`
+
 # set $a to empty list
 set $a []
 
