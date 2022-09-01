@@ -20,21 +20,26 @@ class Juicescript {
 		}
 	}
 	
+	/*
+		Parse given PROGRAM-STRING and store syntax tree
+	*/
+	parse(program_string){
+		// DEVIDE INTO LINES //
+		var line_list = program_string.split("\n");
+		/**/console.log(line_list);
+	}
+	
 	
 	
 	
 	
 	// DEBUG STUFFS //
-	parse(program_string){
-		this.program_string = program_string;
-	}
-	
 	run(){
-		this.io_stdout(this.program_string);
-		this.io_stderr_debug("This debug is a test");
-		this.io_stderr_info("This info is a test");
-		this.io_stderr_warning("This warning is a test");
-		this.io_stderr_error("This error is a test");
+		//this.io_stdout("stdout text");
+		//this.io_stderr_debug("This debug is a test");
+		//this.io_stderr_info("This info is a test");
+		//this.io_stderr_warning("This warning is a test");
+		//this.io_stderr_error("This error is a test");
 	}
 	
 	
