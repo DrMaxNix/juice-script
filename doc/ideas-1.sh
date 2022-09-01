@@ -227,8 +227,11 @@ rnd|rand|random $num 5 13
 
 
 ## STRING MANIPULATION ##
-# get utf-8 char with id $1
-chr $1	|	cast $1 str
+# get number $1 as string
+cast $1 str
+
+# get utf-8 char with id $1 => $1
+chr $1
 
 # get string lenght
 len $length_num $string
