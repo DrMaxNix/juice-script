@@ -1,8 +1,8 @@
 ## COMMENTS ##
 # one-line comments (from prefix to EOL)
-mov $a 42 # comment
-mov $a 42 // comment
-mov $a 42 ; comment
+mov $1 42 # comment
+mov $1 42 // comment
+mov $1 42 ; comment
 
 # block comments
 /*
@@ -11,7 +11,7 @@ mov $a 42 ; comment
 
 /* Also a block comment */
 
-mov /* Inline block comment */ $a 42
+mov /* Inline block comment */ $1 42
 
 
 ## ESCAPE SEQUENCES AND INTEGER PREFIXES ##
@@ -185,44 +185,44 @@ exit|return|end
 ## LISTS ##
 # - if a list index is undefined, its value will be `null`
 
-# set $a to empty list
-set $a []
+# set $1 to empty list
+set $1 []
 
-# set $a to list
-set $a [1, 5, 2345]
+# set $1 to list
+set $1 [1, 5, 2345]
 
 # print 2nd element of 4th list
-echo $a[3][1]
+echo $1[3][1]
 
 # remove 2nd element (maintaining key association)
-set $a[1] null
+set $1[1] null
 
 # push element
-set $a[] "blabla"	|	add $a "blabla"
+set $1[] "blabla"	|	add $1 "blabla"
 
 # print last element
-echo $a[-1]
+echo $1[-1]
 
 # remove (and get) last element (keys will be re-ordered)
-pop $a[-1]	|	pop $a[-1] $b
+pop $1[-1]	|	pop $1[-1] $2
 
-# get list length
-len $length_num $list
+# get length of list $2 => $1
+len $1 $2
 
 
 
 ## EXTERNAL VALUES ##
-# get unix time
-time $time
+# get unix time => $1
+time $1
 
-# get formated time
-time $time "YYYY-MM-DD"
+# get formated time => $1
+time $1 "YYYY-MM-DD"
 
-# get random integer between 0 and 3
-rnd|rand|random $num 3
+# get random integer between 0 and 3 => $1
+rnd|rand|random $1 3
 
-# get random integer between 5 and 13
-rnd|rand|random $num 5 13
+# get random integer between 5 and 13 => $1
+rnd|rand|random $1 5 13
 
 
 
@@ -233,18 +233,18 @@ cast $1 str
 # get utf-8 char with id $1 => $1
 chr $1
 
-# get string lenght
-len $length_num $string
+# get length of string $2 => $1
+len $1 $2
 
-# concat strings => $a
-add $a $b ...
+# concat strings $1 + $2 => $1
+add $1 $2 ...
 
-# get substr 2(-5) => $string
-slice|substr $string 2 5	|	slice|substr $string 2
+# get substr 2(-5) of string $1 => $1
+slice|substr $1 2 5	|	slice|substr $1 2
 
-# repeat string => $string
-mul $string 3
+# repeat string $1 3 times => $1
+mul $1 3
 
-# get position of first occourance of needle in haystack => $pos
-# $pos >= 0 if found; $pos = false if nothing found
-pos|strpos $pos $haystack $needle
+# get position of first occourance of $3 (=needle) in $2 (=haystack) => $1
+# pos >= 0 if found; pos = false if nothing found
+pos|strpos $1 $2 $3
