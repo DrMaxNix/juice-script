@@ -1,0 +1,12 @@
+mov $1 42 # comment
+mov $1 42 // comment
+mov $1 42 ; comment
+
+# block comments
+/*
+	Block comment
+*/
+
+/* Also a block comment */
+
+mov /* Inline block comment */ $1 42

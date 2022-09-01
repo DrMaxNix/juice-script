@@ -1,0 +1,12 @@
+echo "Here comes a quote: \"Lorem ipsum\". This had to be escaped!\n"
+echo "Here comes another quote: 'Lorem ipsum'. This didn't require escaping!\n"
+
+echo "multiple" "strings" "to" "echo" "\n"
+
+echo "Escape sequences work: \u2764\ufe0f"
+echo 'Escape sequences are printed as-is: \u2764\ufe0f'
+
+echo "\t" "indent x1"
+echo "\t\t" "indent x2"
+echo "\t" "\t" "indent x2"
+echo "indent x0"

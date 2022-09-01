@@ -1,0 +1,11 @@
+mov $dec 42
+echo $dec "\n"
+
+mov $hex 0x2A
+echo $hex "\n"
+
+mov $oct 0o52
+echo $oct "\n"
+
+mov $bin 0b101010
+echo $bin "\n"
