@@ -30,7 +30,7 @@ mov /* Inline block comment */ $a 42
 
 ## VARIABLES ##
 # $2 => $1
-mov|set $1 $2
+move|mov|set $1 $2
 
 # load $1 from root scope into current scope
 glob|global|pub|public $1
