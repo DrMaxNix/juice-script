@@ -15,6 +15,10 @@ mov /* Inline block comment */ $1 42
 
 
 ## ESCAPE SEQUENCES AND INTEGER PREFIXES ##
+# quote escaping
+"Here comes a quote: \"Lorem ipsum\". This had to be escaped!"
+"Here comes another quote: 'Lorem ipsum'. This didn't require escaping!"
+
 # in strings (only those in double quotes)
 "\n"		# newline
 "\t"		# tab
