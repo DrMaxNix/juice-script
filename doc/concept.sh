@@ -104,7 +104,6 @@ ifn cond
 
 # cond:
 x
-!x
 x == y
 x != y
 x === y
