@@ -99,17 +99,23 @@ floor $1
 # only execute next line if cond is true
 if|ifl cond
 
-# cond:
-x
-!x
-x == y
-x != y
-x === y
-x !== y
-x < y
-x <= y
-x > y
-x >= y
+# value to bool
+$1		# same as `$1 == true`
+!$1		# same as `$1 != true`
+
+# loosely typed compare
+$1 == $2
+$1 != $2
+
+# strongly typed compare
+$1 === $2
+$1 !== $2
+
+# numerical / alphabetical compare
+$1 < $2
+$1 <= $2
+$1 > $2
+$1 >= $2
 
 
 
