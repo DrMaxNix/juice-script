@@ -97,13 +97,11 @@ floor $1
 
 ## CONDITIONS ##
 # only execute next line if cond is true
-ifl cond
-
-# skip next line if cond is true
-ifn cond
+if|ifl cond
 
 # cond:
 x
+!x
 x == y
 x != y
 x === y
