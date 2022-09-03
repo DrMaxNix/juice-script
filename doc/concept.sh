@@ -96,8 +96,8 @@ floor $1
 
 
 ## CONDITIONS ##
-# only execute next line if cond is true
-if|ifl cond
+# only execute next line if <cond> is true
+if|ifl <cond>
 
 # value to bool
 $1		# same as `$1 == true`
