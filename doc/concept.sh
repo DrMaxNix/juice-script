@@ -168,7 +168,7 @@ pxl|pixel|canv|canvas draw
 
 # the function scope "myfunction1" starts here
 # argument $1 is readonly; $2 is read/write
-fcn|def myfunction1 $1 &$2
+def myfunction1 $1 &$2
 
 # current function scope ends here
 end
