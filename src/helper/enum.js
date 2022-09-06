@@ -16,7 +16,7 @@ class Juicescript_helper_enum {
 		HELPER: Check if ELEMENT is member of this enum
 	*/
 	has(element){
-		return Object.keys(this).includes(element);
+		return Object.values(this).includes(element);
 	}
 	
 	/*
