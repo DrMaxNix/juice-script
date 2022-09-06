@@ -1,3 +1,4 @@
+"use strict";
 class Juicescript_lexer {
 	/*
 		CONSTRUCTOR: Return new juicescript lexer for SOURCE with OPTIONS

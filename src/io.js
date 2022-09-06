@@ -1,3 +1,4 @@
+"use strict";
 class Juicescript_io {
 	/*
 		CONSTRUCTOR: Return new juicescript io adapter with CALLBACKs
