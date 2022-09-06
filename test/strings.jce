@@ -1,12 +1,26 @@
 echo "Here comes a quote: \"Lorem ipsum\". This had to be escaped!\n"
 echo "Here comes another quote: 'Lorem ipsum'. This didn't require escaping!\n"
 
+echo "escape quotes: \\\"\n"
+echo "escape backslashes: \\\\\n"
+
 echo "multiple" "strings" "to" "echo" "\n"
 
-echo "Escape sequences work: \u2764\ufe0f"
-echo 'Escape sequences are printed as-is: \u2764\ufe0f'
+echo "絵文字 in code: 🥦🐻🐈👀\n"
+echo "Escape sequences work: \u2764\ufe0f\n"
+echo 'Escape sequences are printed as-is: \u2764\ufe0f\n'
 
-echo "\t" "indent x1"
-echo "\t\t" "indent x2"
-echo "\t" "\t" "indent x2"
-echo "indent x0"
+echo "Multi
+line
+string"
+
+echo "\tindent x1\n"
+echo "\t\tindent x2\n"
+echo "\t\tindent x2\n"
+echo "indent x0\n"
+
+echo "you can also escape useless stuff: \u\s\e\l\e\s\s\n"
+echo 'not working in single quoted strings tho: \u\s\e\l\e\s\s' "\n"
+
+echo 'Escaping quotes and backslashes works in both string types: \\\\\\\'\n'
+
