@@ -97,7 +97,6 @@
 			
 			document.addEventListener("DOMContentLoaded", function(){
 				juicescript.parse(juice_program);
-				juicescript.run();
 			});
 		</script>
 	</head>

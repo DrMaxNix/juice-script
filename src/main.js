@@ -26,19 +26,14 @@ class Juicescript {
 		Parse given PROGRAM-STRING and store syntax tree
 	*/
 	parse(program_string){
+		// DO SCANNING //
+		// get lexer
+		var lexer = new Juicescript_lexer(program_string, {
+			io: this.io
+		});
 		
-	}
-	
-	
-	
-	
-	
-	// DEBUG STUFFS //
-	run(){
-		this.io.stdout("stdout text");
-		this.io.stderr.debug("This debug is a test");
-		this.io.stderr.info("This info is a test");
-		this.io.stderr.warning("This warning is a test");
-		this.io.stderr.error("This error is a test");
+		// run lexical analysis
+		var token_list = lexer.scan();
+		/**/console.log(token_list);
 	}
 }
