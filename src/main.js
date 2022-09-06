@@ -2,10 +2,10 @@ class Juicescript {
 	// TOKEN TYPES //
 	static token_type = new Enum(
 		// keywords
-		"FUN", "GLOBAL",
+		"FUN", "GLOBAL", "END"
 		
 		// literals
-		"IDENTIFIER", "VARIABLE", "STRING", "NUMBER",
+		"IDENTIFIER", "VARIABLE", "FLAG", "STRING", "NUMBER",
 		
 		// language constants
 		"TRUE", "FALSE",
@@ -17,6 +17,10 @@ class Juicescript {
 		"STRICT_EQUAL", "STRICT_NOT_EQUAL",
 		"GREATER", "GREATER_EQUAL",
 		"LESS", "LESS_EQUAL"
+		
+		// braces
+		"BRACKET_SQUARE_OPEN", "BRACKET_SQUARE_CLOSE",
+		"BRACKET_CURLY_OPEN", "BRACKET_CURLY_CLOSE",
 		
 		// meta stuff
 		"EOF"
