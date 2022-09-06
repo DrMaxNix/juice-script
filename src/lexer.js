@@ -3,11 +3,11 @@ class Juicescript_lexer {
 		CONSTRUCTOR: Return new juicescript lexer for SOURCE with OPTIONS
 	*/
 	constructor(source, options){
-		// STORE SOURCE //
+		// STORE ARGUMENTS //
+		// source
 		this.source = source;
 		
-		
-		// STORE IO ADAPTER //
+		// io adapter
 		this.io = options.io;
 	}
 	
