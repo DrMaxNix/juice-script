@@ -90,7 +90,7 @@
 				var span_one_line = document.createElement("span");
 				
 				span_one_line.classList.add("line", "stderr-" + type);
-				span_one_line.textContent = text;
+				span_one_line.textContent = text + "\n";
 				
 				document.getElementById("text-output-area").appendChild(span_one_line);
 			}
