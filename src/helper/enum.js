@@ -1,4 +1,4 @@
-class Enum {
+class Juicescript_helper_enum {
 	constructor(...keys){
 		keys.forEach((key, i) => {
 			this[key] = i;
