@@ -155,15 +155,33 @@ class Juicescript_lexer {
 				break;
 			
 			
+			// NEGATIVE NUMBERS //
+			case "-":
+				// only if there's a valid digit after it
+				if(this.is_digit(this.peek())){
+					// ignore minus sign
+					this.start += 1;
+					this.next();
+					
+					// scan like a normal number
+					this.scan_number(true);
+					break;
+				}
+				
+				// ignore with warning
+				this.warning("unexpected character '" + char + "'");
+				break;
+			
+			
 			// EVERYTHING ELSE //
 			default:
-				// number
+				// numbers
 				if(this.is_digit(char)){
 					this.scan_number();
 					break;
 				}
 				
-				// identifier
+				// identifiers
 				if(this.is_alpha(char)){
 					this.scan_identifier();
 					break;
@@ -334,7 +352,7 @@ class Juicescript_lexer {
 	/*
 		SCANNER: Handle number
 	*/
-	scan_number(){
+	scan_number(negative = false){
 		// DEFAULT VALUES FOR BASE 10 //
 		var base = null;
 		var is_valid_char = this.is_digit;
@@ -404,6 +422,9 @@ class Juicescript_lexer {
 			// base 10
 			var number = parseFloat(number_string);
 		}
+		
+		// maybe negate
+		if(negative) number *= -1;
 		
 		// add token
 		this.token_add({type: Juicescript.token_type.NUMBER, value: number});
