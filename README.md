@@ -11,13 +11,13 @@ Basic assembly-like high-level programming language
 
 ## Example
 ```asm
-move $q 0
+set $q 0
 
 loop:
     echo $q
     add $q 1
 
-ifl $q < 10
+if $q < 10
     jump "loop"
 ```
 
