@@ -28,7 +28,7 @@ class Juicescript_io {
 				additional.prefix = "DEBUG";
 				
 				// build and print
-				this.callback.stderr(this.build_stderr(text, additional), "debug");
+				this.callback.stderr(this.stderr_build(text, additional), "debug");
 			},
 			
 			info: (text, additional) => {
@@ -40,7 +40,7 @@ class Juicescript_io {
 				additional.prefix = "INFO ";
 				
 				// build and print
-				this.callback.stderr(this.build_stderr(text, additional), "info");
+				this.callback.stderr(this.stderr_build(text, additional), "info");
 			},
 			
 			warning: (text, additional) => {
@@ -52,7 +52,7 @@ class Juicescript_io {
 				additional.prefix = "WARN ";
 				
 				// build and print
-				this.callback.stderr(this.build_stderr(text, additional), "warning");
+				this.callback.stderr(this.stderr_build(text, additional), "warning");
 			},
 			
 			error: (text, additional) => {
@@ -64,7 +64,7 @@ class Juicescript_io {
 				additional.prefix = "ERROR";
 				
 				// build and print
-				this.callback.stderr(this.build_stderr(text, additional), "error");
+				this.callback.stderr(this.stderr_build(text, additional), "error");
 			}
 		}
 	}
@@ -72,7 +72,7 @@ class Juicescript_io {
 	/*
 		HELPER: Build stderr string from TEXT and ADDITIONAL data
 	*/
-	build_stderr(text, additional){
+	stderr_build(text, additional){
 		// START WITH EMPTY STRING //
 		var string = "";
 		
