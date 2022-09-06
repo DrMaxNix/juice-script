@@ -1,0 +1,20 @@
+mov $dec 42
+echo $dec "\n"
+
+mov $hex 0x2A
+echo $hex "\n"
+
+mov $oct 0o52
+echo $oct "\n"
+
+mov $bin 0b101010
+echo $bin "\n"
+
+mov $float 4.20
+echo $float "\n"
+
+mov $small 1.000000000000001
+echo $small "\n"
+
+mov $big 1000000000000001
+echo $big "\n"
