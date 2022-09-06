@@ -53,9 +53,14 @@
 			span.line.stderr-error { color: var(--onedark-red); }
 		</style>
 		
-		<script type="text/javascript">
-			<?php require("../juicescript.js"); ?>
-		</script>
+		<script type="text/javascript"><?php
+			foreach(scandir("../src") as $one_file){
+				if(is_file("../src/" . $one_file)){
+					require("../src/" . $one_file);
+					echo("\n");
+				}
+			}
+		?></script>
 		
 		<script type="text/javascript">
 			var juice_program = <?php echo(json_encode(file_get_contents("juice-program.jce"))); ?>;
