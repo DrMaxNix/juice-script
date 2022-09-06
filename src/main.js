@@ -1,4 +1,29 @@
 class Juicescript {
+	// TOKEN TYPES //
+	static token_type = new Enum(
+		// keywords
+		"FUN", "GLOBAL",
+		
+		// literals
+		"IDENTIFIER", "VARIABLE", "STRING", "NUMBER",
+		
+		// language constants
+		"TRUE", "FALSE",
+		"NULL",
+		
+		// operators
+		"NOT",
+		"EQUAL", "NOT_EQUAL",
+		"STRICT_EQUAL", "STRICT_NOT_EQUAL",
+		"GREATER", "GREATER_EQUAL",
+		"LESS", "LESS_EQUAL"
+		
+		// meta stuff
+		"EOF"
+	);
+	
+	
+	
 	/*
 		CONSTRUCTOR: Return new juicescript parser with OPTIONS
 	*/
