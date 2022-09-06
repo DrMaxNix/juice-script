@@ -103,6 +103,11 @@
 			});
 			
 			document.addEventListener("DOMContentLoaded", function(){
+				if(juice_program === false){
+					juicescript.io.stderr.error("No source file found! Add one at 'dev/juice-program.jce'");
+					return;
+				}
+				
 				juicescript.parse(juice_program);
 			});
 		</script>
