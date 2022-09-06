@@ -2,7 +2,7 @@ class Juicescript {
 	// TOKEN TYPES //
 	static token_type = new Juicescript_helper_enum(
 		// keywords
-		"FUN", "GLOBAL", "END",
+		"DEF", "GLOBAL", "END",
 		
 		// literals
 		"IDENTIFIER", "VARIABLE", "FLAG", "STRING", "NUMBER",
@@ -18,7 +18,7 @@ class Juicescript {
 		"GREATER", "GREATER_EQUAL",
 		"LESS", "LESS_EQUAL",
 		
-		// braces
+		// brackets
 		"BRACKET_SQUARE_OPEN", "BRACKET_SQUARE_CLOSE",
 		"BRACKET_CURLY_OPEN", "BRACKET_CURLY_CLOSE",
 		
@@ -63,6 +63,9 @@ class Juicescript {
 		
 		// run lexical analysis
 		var token_list = lexer.scan();
-		/**/console.log(token_list);
+		/**/for(var one_token of token_list){
+			/**/one_token.type = Juicescript.token_type.name(one_token.type);
+			/**/console.log(one_token);
+		/**/}
 	}
 }
