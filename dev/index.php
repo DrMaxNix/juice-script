@@ -54,6 +54,13 @@
 		</style>
 		
 		<script type="text/javascript"><?php
+			foreach(scandir("../src/helper") as $one_file){
+				if(is_file("../src/helper/" . $one_file)){
+					require("../src/helper/" . $one_file);
+					echo("\n");
+				}
+			}
+			
 			foreach(scandir("../src") as $one_file){
 				if(is_file("../src/" . $one_file)){
 					require("../src/" . $one_file);
