@@ -19,18 +19,81 @@ class Juicescript_io {
 	*/
 	get stderr(){
 		return {
-			debug: (text) => {
-				this.callback.stderr("[DEBUG] " + text, "debug");
+			debug: (text, additional) => {
+				// add defaults
+				additional ??= {};
+				additional.line ??= null;
+				
+				// set constant values
+				additional.prefix = "DEBUG";
+				
+				// build and print
+				this.callback.stderr(this.build_stderr(text, additional), "debug");
 			},
-			info: (text) => {
-				this.callback.stderr("[INFO ] " + text, "info");
+			
+			info: (text, additional) => {
+				// add defaults
+				additional ??= {};
+				additional.line ??= null;
+				
+				// set constant values
+				additional.prefix = "INFO ";
+				
+				// build and print
+				this.callback.stderr(this.build_stderr(text, additional), "info");
 			},
-			warning: (text) => {
-				this.callback.stderr("[WARN ] " + text, "warning");
+			
+			warning: (text, additional) => {
+				// add defaults
+				additional ??= {};
+				additional.line ??= null;
+				
+				// set constant values
+				additional.prefix = "WARN ";
+				
+				// build and print
+				this.callback.stderr(this.build_stderr(text, additional), "warning");
 			},
-			error: (text) => {
-				this.callback.stderr("[ERROR] " + text, "error");
+			
+			error: (text, additional) => {
+				// add defaults
+				additional ??= {};
+				additional.line ??= null;
+				
+				// set constant values
+				additional.prefix = "ERROR";
+				
+				// build and print
+				this.callback.stderr(this.build_stderr(text, additional), "error");
 			}
 		}
+	}
+	
+	/*
+		HELPER: Build stderr string from TEXT and ADDITIONAL data
+	*/
+	build_stderr(text, additional){
+		// START WITH EMPTY STRING //
+		var string = "";
+		
+		
+		// PREFIX //
+		if(additional.prefix){
+			string += "[" + additional.prefix + "] ";
+		}
+		
+		
+		// LINE NUMBER //
+		if(additional.line){
+			string += "(line " + additional.line + ") ";
+		}
+		
+		
+		// TEXT //
+		string += text;
+		
+		
+		// RETURN //
+		return string;
 	}
 }
