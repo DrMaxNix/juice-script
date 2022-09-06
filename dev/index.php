@@ -89,9 +89,9 @@
 					stderr: my_error_callback
 				}
 			});
-			juicescript.parse(juice_program);
 			
 			document.addEventListener("DOMContentLoaded", function(){
+				juicescript.parse(juice_program);
 				juicescript.run();
 			});
 		</script>
