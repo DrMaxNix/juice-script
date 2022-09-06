@@ -11,4 +11,18 @@ class Juicescript_helper_enum {
 			yield key;
 		}
 	}
+	
+	/*
+		HELPER: Check if ELEMENT is member of this enum
+	*/
+	has(element){
+		return Object.keys(this).includes(element);
+	}
+	
+	/*
+		GETTER: Return name of enum with VALUE
+	*/
+	name(value){
+		return Object.keys(this).find(key => this[key] === value);
+	}
 }
