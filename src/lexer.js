@@ -51,7 +51,7 @@ class Juicescript_lexer {
 	*/
 	scan_one(){
 		// consume next character
-		var char = this.next();
+		let char = this.next();
 		
 		// scan character
 		switch(char){
@@ -202,7 +202,7 @@ class Juicescript_lexer {
 			// do we have a quote?
 			if(this.peek() === marker){
 				// count backslashes in front of quote
-				var backslash_count = 0;
+				let backslash_count = 0;
 				while(this.peek(-(backslash_count + 1)) === "\\"){
 					backslash_count++;
 				};
@@ -232,18 +232,18 @@ class Juicescript_lexer {
 		this.next();
 		
 		// get consumed string
-		var string = this.source.substring(this.start + 1, this.end - 1);
+		let string = this.source.substring(this.start + 1, this.end - 1);
 		
 		
 		// RESOLVE ESCAPE SEQUENCES //
 		// iterate over whole string
-		var offset = 0;
-		var pos = -1;
+		let offset = 0;
+		let pos = -1;
 		while((pos = string.indexOf("\\", offset)) > -1){
 			// defaults for escaping one character
-			var char_escaped = string.substring(pos + 1, pos + 2);
-			var replace = char_escaped;
-			var remove_length = replace.length;
+			let char_escaped = string.substring(pos + 1, pos + 2);
+			let replace = char_escaped;
+			let remove_length = replace.length;
 			
 			// special escape sequences
 			switch(char_escaped){
@@ -265,12 +265,12 @@ class Juicescript_lexer {
 				// unicode
 				case "u":
 					// get four-letter codepoint string
-					var next_four_chars = string.substring(pos + 2, pos + 6);
+					let next_four_chars = string.substring(pos + 2, pos + 6);
 					
 					// check if this is valid hexadecimal
 					if(/^[0-9a-fA-F]*$/.test(next_four_chars)){
 						// convert codepoint to decimal number
-						var codepoint = parseInt(next_four_chars, 16);
+						let codepoint = parseInt(next_four_chars, 16);
 						
 						// get corresponding unicode character
 						replace = String.fromCharCode(codepoint);
@@ -334,7 +334,7 @@ class Juicescript_lexer {
 		while(this.is_alphanumeric(this.peek())) this.next();
 		
 		// get consumed string
-		var variable = this.source.substring(this.start + 1, this.end);
+		let variable = this.source.substring(this.start + 1, this.end);
 		
 		
 		// CHECK IF THERE EVEN IS A NAME //
@@ -354,9 +354,9 @@ class Juicescript_lexer {
 	*/
 	scan_number(negative = false){
 		// DEFAULT VALUES FOR BASE 10 //
-		var base = null;
-		var is_valid_char = this.is_digit;
-		var number_string_offset = 0;
+		let base = null;
+		let is_valid_char = this.is_digit;
+		let number_string_offset = 0;
 		
 		
 		// HANDLE OTHER BASES //
@@ -409,18 +409,19 @@ class Juicescript_lexer {
 		}
 		
 		// get consumed string
-		var number_string = this.source.substring(this.start + number_string_offset, this.end);
+		let number_string = this.source.substring(this.start + number_string_offset, this.end);
 		
 		
 		// STORE NUMBER IN TOKEN //
-		// parse number 
+		// parse number
+		let number;
 		if(base !== null){
 			// custom base
-			var number = parseFloat(parseInt(number_string, base));
+			number = parseFloat(parseInt(number_string, base));
 			
 		} else {
 			// base 10
-			var number = parseFloat(number_string);
+			number = parseFloat(number_string);
 		}
 		
 		// maybe negate
@@ -439,7 +440,7 @@ class Juicescript_lexer {
 		while(this.is_alphanumeric(this.peek())) this.next();
 		
 		// get consumed string
-		var identifier = this.source.substring(this.start, this.end);
+		let identifier = this.source.substring(this.start, this.end);
 		
 		
 		// CHEKC IF THIS IS A SUFFIXED FLAG //
@@ -455,7 +456,7 @@ class Juicescript_lexer {
 		
 		// MAYBE CONVERT IDENTIFIER TO KEYWORD //
 		// try to load from lookup table
-		var keyword = ({
+		let keyword = ({
 			"DEF": Juicescript.token_type.DEF,
 			
 			"GLOB": Juicescript.token_type.GLOBAL,
@@ -491,7 +492,7 @@ class Juicescript_lexer {
 		while(this.is_alphanumeric(this.peek())) this.next();
 		
 		// get consumed string
-		var flag = this.source.substring(this.start + 1, this.end);
+		let flag = this.source.substring(this.start + 1, this.end);
 		
 		// consume (=ignore) optional `:` suffix
 		this.match(":");
@@ -592,7 +593,7 @@ class Juicescript_lexer {
 	*/
 	token_add(options){
 		// NEW OJECT //
-		var token = {};
+		let token = {};
 		
 		
 		// COLLECT REQUIRED ATTRIBUTES //

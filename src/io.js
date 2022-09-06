@@ -74,7 +74,7 @@ class Juicescript_io {
 	*/
 	stderr_build(text, additional){
 		// START WITH EMPTY STRING //
-		var string = "";
+		let string = "";
 		
 		
 		// PREFIX //

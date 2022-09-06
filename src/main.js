@@ -57,13 +57,13 @@ class Juicescript {
 	parse(program_string){
 		// DO SCANNING //
 		// get lexer
-		var lexer = new Juicescript_lexer(program_string, {
+		let lexer = new Juicescript_lexer(program_string, {
 			io: this.io
 		});
 		
 		// run lexical analysis
-		var token_list = lexer.scan();
-		/**/for(var one_token of token_list){
+		let token_list = lexer.scan();
+		/**/for(let one_token of token_list){
 			/**/one_token.type = Juicescript.token_type.name(one_token.type);
 			/**/console.log(one_token);
 		/**/}

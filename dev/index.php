@@ -70,15 +70,15 @@
 		?></script>
 		
 		<script type="text/javascript">
-			var juice_program = <?php echo(json_encode(file_get_contents("juice-program.jce"))); ?>;
+			let juice_program = <?php echo(json_encode(file_get_contents("juice-program.jce"))); ?>;
 		</script>
 		
 		<script type="text/javascript">
-			var my_output_callback = function(text){
-				var line_list = text.split("\n");
+			let my_output_callback = function(text){
+				let line_list = text.split("\n");
 				
-				for(var one_line of line_list){
-					var span_one_line = document.createElement("span");
+				for(let one_line of line_list){
+					let span_one_line = document.createElement("span");
 					
 					span_one_line.classList.add("line");
 					span_one_line.textContent = one_line;
@@ -86,8 +86,8 @@
 					document.getElementById("text-output-area").appendChild(span_one_line);
 				}
 			}
-			var my_error_callback = function(text, type){
-				var span_one_line = document.createElement("span");
+			let my_error_callback = function(text, type){
+				let span_one_line = document.createElement("span");
 				
 				span_one_line.classList.add("line", "stderr-" + type);
 				span_one_line.textContent = text + "\n";
@@ -95,7 +95,7 @@
 				document.getElementById("text-output-area").appendChild(span_one_line);
 			}
 			
-			var juicescript = new Juicescript({
+			let juicescript = new Juicescript({
 				callback: {
 					stdout: my_output_callback,
 					stderr: my_error_callback
