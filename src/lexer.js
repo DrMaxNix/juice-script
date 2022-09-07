@@ -160,12 +160,11 @@ class Juicescript_lexer {
 			case "-":
 				// only if there's a valid digit after it
 				if(this.is_digit(this.peek())){
-					// ignore minus sign
-					this.start += 1;
+					// consume minus sign
 					this.next();
 					
 					// scan like a normal number
-					this.scan_number(true);
+					this.scan_number();
 					break;
 				}
 				
@@ -353,8 +352,9 @@ class Juicescript_lexer {
 	/*
 		SCANNER: Handle number
 	*/
-	scan_number(negative = false){
-		// DEFAULT VALUES FOR BASE 10 //
+	scan_number(){
+		// DEFAULT VALUES FOR POSITIVE BASE 10 NUMBER //
+		let negative = false;
 		let base = null;
 		let is_valid_char = this.is_digit;
 		let number_string_offset = 0;
@@ -410,10 +410,23 @@ class Juicescript_lexer {
 		}
 		
 		// get consumed string
-		let number_string = this.source.substring(this.start + number_string_offset, this.end);
+		let number_string_full = this.source.substring(this.start, this.end);
+		
+		
+		// HANDLE NEGATIVE NUMBERS //
+		if(number_string_full.substring(0, 1) === "-"){
+			// remember to negate later
+			negative = true;
+			
+			// ignore minus sign
+			number_string_offset++;
+		}
 		
 		
 		// STORE NUMBER IN TOKEN //
+		// get number string
+		let number_string = number_string_full.substring(number_string_offset);
+		
 		// parse number
 		let number;
 		if(base !== null){
