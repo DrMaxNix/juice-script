@@ -339,6 +339,13 @@ class Juicescript_lexer {
 		
 		// CHECK IF THERE EVEN IS A NAME //
 		if(variable.length <= 0){
+			// has curly bracket after it?
+			if(this.peek() === "{"){
+				// add token without value
+				this.token_add({type: Juicescript.token_type.VARIABLE});
+				return;
+			}
+			
 			// ignore with warning
 			this.warning("unexpected character '" + this.source.charAt(this.start) + "'");
 			return;
