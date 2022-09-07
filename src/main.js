@@ -23,6 +23,9 @@ class Juicescript {
 		"BRACKET_SQUARE_OPEN", "BRACKET_SQUARE_CLOSE",
 		"BRACKET_CURLY_OPEN", "BRACKET_CURLY_CLOSE",
 		
+		// special chars
+		"AMPERSAND",
+		
 		// meta stuff
 		"EOF"
 	);

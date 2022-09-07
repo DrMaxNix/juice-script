@@ -173,6 +173,20 @@ class Juicescript_lexer {
 				break;
 			
 			
+			// AMPERSAND //
+			case "&":
+				// only if there's a dollar sign after it
+				if(this.peek() === "$"){
+					// add token
+					this.token_add({type: Juicescript.token_type.AMPERSAND});
+					break;
+				}
+				
+				// ignore with warning
+				this.warning("unexpected character '" + char + "'");
+				break;
+			
+			
 			// EVERYTHING ELSE //
 			default:
 				// numbers
