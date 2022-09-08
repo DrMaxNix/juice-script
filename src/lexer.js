@@ -25,6 +25,10 @@ class Juicescript_lexer {
 		// token list
 		this.token_list = [];
 		
+		// warning and error counter
+		this.warning_count = 0;
+		this.error_count = 0;
+		
 		
 		// SCAN WHOLE SOURCE //
 		while(!this.is_at_end()){
@@ -84,7 +88,7 @@ class Juicescript_lexer {
 				
 			case "=":
 				if		(this.match("="))		this.token_add({type: Juicescript.token_type.EQUAL});
-				else							this.warning("unexpected character '" + char + "'");
+				else							this.error("unexpected character '" + char + "'");
 				break;
 				
 			case "<":
@@ -127,7 +131,7 @@ class Juicescript_lexer {
 				
 				// single slash
 				if(char === "/" && !this.match("/")){
-					this.warning("unexpected character '" + char + "'");
+					this.error("unexpected character '" + char + "'");
 					break;
 				}
 				
@@ -172,8 +176,8 @@ class Juicescript_lexer {
 					break;
 				}
 				
-				// ignore with warning
-				this.warning("unexpected character '" + char + "'");
+				// ignore with error
+				this.error("unexpected character '" + char + "'");
 				break;
 			
 			
@@ -186,8 +190,8 @@ class Juicescript_lexer {
 					break;
 				}
 				
-				// ignore with warning
-				this.warning("unexpected character '" + char + "'");
+				// ignore with error
+				this.error("unexpected character '" + char + "'");
 				break;
 			
 			
@@ -205,8 +209,8 @@ class Juicescript_lexer {
 					break;
 				}
 				
-				// unexpected
-				this.warning("unexpected character '" + char + "'");
+				// unexpected (ignore with error)
+				this.error("unexpected character '" + char + "'");
 				break;
 		}
 	}
@@ -239,8 +243,8 @@ class Juicescript_lexer {
 		
 		// DID WE REACH THE END OF SOURCE WITHOUT TERMINATION? //
 		if(this.is_at_end()){
-			// ignore with warning
-			this.warning("unterminated string");
+			// ignore with error
+			this.error("unterminated string");
 			return;
 		}
 		
@@ -334,8 +338,8 @@ class Juicescript_lexer {
 		
 		// DID WE REACH THE END OF SOURCE WITHOUT TERMINATION? //
 		if(this.is_at_end()){
-			// ignore with warning
-			this.warning("unterminated block comment");
+			// ignore with error
+			this.error("unterminated block comment");
 			return;
 		}
 		
@@ -364,8 +368,8 @@ class Juicescript_lexer {
 				return;
 			}
 			
-			// ignore with warning
-			this.warning("unexpected character '" + this.source.charAt(this.start) + "'");
+			// ignore with error
+			this.error("unexpected character '" + this.source.charAt(this.start) + "'");
 			return;
 		}
 		
@@ -539,8 +543,8 @@ class Juicescript_lexer {
 		
 		// CHECK IF THERE EVEN IS A NAME //
 		if(flag.length <= 0){
-			// ignore with warning
-			this.warning("unexpected character '" + this.source.charAt(this.start) + "'");
+			// ignore with error
+			this.error("unexpected character '" + this.source.charAt(this.start) + "'");
 			return;
 		}
 		
@@ -679,6 +683,11 @@ class Juicescript_lexer {
 		this.io.stderr.info(text, additional);
 	}
 	warning(text, additional){
+		// KEEP TRACK OF PROBLEM //
+		this.warning_count++;
+		
+		
+		// PRINT MESSAGE //
 		// add defaults
 		additional ??= {};
 		additional.line ??= this.line;
@@ -686,12 +695,17 @@ class Juicescript_lexer {
 		// forward
 		this.io.stderr.warning(text, additional);
 	}
-	debug(text, additional){
+	error(text, additional){
+		// KEEP TRACK OF PROBLEM //
+		this.error_count++;
+		
+		
+		// PRINT MESSAGE //
 		// add defaults
 		additional ??= {};
 		additional.line ??= this.line;
 		
 		// forward
-		this.io.stderr.debug(text, additional);
+		this.io.stderr.error(text, additional);
 	}
 }

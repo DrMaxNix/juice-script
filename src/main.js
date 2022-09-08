@@ -61,6 +61,10 @@ class Juicescript {
 		Parse given PROGRAM-STRING and store syntax tree
 	*/
 	parse(program_string){
+		// CLEAR OLD PROGRAM TREE //
+		this.program_tree = null;
+		
+		
 		// DO SCANNING //
 		// get lexer
 		let lexer = new Juicescript_lexer(program_string, {
@@ -69,10 +73,29 @@ class Juicescript {
 		
 		// run lexical analysis
 		let token_list = lexer.scan();
-		/**/for(let one_token of token_list){
-			/**/one_token.type = Juicescript.token_type.name(one_token.type);
-			/**/console.log(one_token);
-		/**/}
+		
+		// stop here if unsuccessful
+		if(lexer.error_count > 0) return false;
+		
+		
+		// GET PROGRAM TREE FROM TOKENS //
+		// get parser
+		let parser = new Juicescript_parser(token_list, {
+			io: this.io
+		});
+		
+		// do parsing
+		let program_tree = parser.parse();
+		
+		// store program tree
+		this.program_tree = program_tree;
+		
+		// stop here if unsuccessful
+		if(parser.error_count > 0) return false;
+		
+		
+		// RETURN SUCCESS //
+		return true;
 	}
 	
 	/*

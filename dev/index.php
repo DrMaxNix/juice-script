@@ -112,15 +112,20 @@
 				
 				// parse source code
 				/**/const parse_start = performance.now();
-				juicescript.parse(juice_program);
+				let parse_success = juicescript.parse(juice_program);
 				/**/const parse_end = performance.now();
 				/**/juicescript.io.stderr.info("Parsing took " + (parse_end - parse_start) + "ms");
 				
 				// execute program
-				/**/const run_start = performance.now();
-				juicescript.run();
-				/**/const run_end = performance.now();
-				/**/juicescript.io.stderr.info("Running took " + (run_end - run_start) + "ms");
+				if(parse_success){
+					/**/const run_start = performance.now();
+					juicescript.run();
+					/**/const run_end = performance.now();
+					/**/juicescript.io.stderr.info("Running took " + (run_end - run_start) + "ms");
+					
+				} else {
+					juicescript.io.stderr.info("Not executing program due to parse error");
+				}
 			});
 		</script>
 	</head>
