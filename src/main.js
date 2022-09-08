@@ -87,14 +87,15 @@ class Juicescript {
 		// do parsing
 		let program_tree = parser.parse();
 		
-		// store program tree
-		this.program_tree = program_tree;
-		
 		// stop here if unsuccessful
 		if(parser.error_count > 0) return false;
 		
 		
-		// RETURN SUCCESS //
+		// FINISH UP //
+		// store program tree
+		this.program_tree = program_tree;
+		
+		// return success
 		return true;
 	}
 	
