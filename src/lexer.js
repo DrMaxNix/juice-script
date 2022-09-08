@@ -35,6 +35,9 @@ class Juicescript_lexer {
 			// start where last scan ended
 			this.start = this.end;
 			
+			// consume next character
+			this.char = this.next();
+			
 			// scan next token
 			this.scan_one();
 		}
@@ -55,11 +58,7 @@ class Juicescript_lexer {
 		HELPER: Scan one token at current position
 	*/
 	scan_one(){
-		// consume next character
-		let char = this.next();
-		
-		// scan character
-		switch(char){
+		switch(this.char){
 			// WHITESPACE //
 			case " ":
 			case "\r":
@@ -88,7 +87,7 @@ class Juicescript_lexer {
 				
 			case "=":
 				if		(this.match("="))		this.token_add({type: Juicescript.token_type.EQUAL});
-				else							this.error("unexpected character '" + char + "'");
+				else							this.error("unexpected character '" + this.char + "'");
 				break;
 				
 			case "<":
@@ -124,14 +123,14 @@ class Juicescript_lexer {
 			case "#":
 			case "/":
 				// block comment
-				if(char === "/" && this.match("*")){
+				if(this.char === "/" && this.match("*")){
 					this.scan_block_comment();
 					break;
 				}
 				
 				// single slash
-				if(char === "/" && !this.match("/")){
-					this.error("unexpected character '" + char + "'");
+				if(this.char === "/" && !this.match("/")){
+					this.error("unexpected character '" + this.char + "'");
 					break;
 				}
 				
@@ -143,12 +142,12 @@ class Juicescript_lexer {
 			// STRINGS //
 			// handle escape sequences
 			case "\"":
-				this.scan_string(char, true);
+				this.scan_string(this.char, true);
 				break;
 			
 			// ignore escape sequences
 			case "'":
-				this.scan_string(char, false);
+				this.scan_string(this.char, false);
 				break;
 			
 			
@@ -177,7 +176,7 @@ class Juicescript_lexer {
 				}
 				
 				// ignore with error
-				this.error("unexpected character '" + char + "'");
+				this.error("unexpected character '" + this.char + "'");
 				break;
 			
 			
@@ -191,26 +190,26 @@ class Juicescript_lexer {
 				}
 				
 				// ignore with error
-				this.error("unexpected character '" + char + "'");
+				this.error("unexpected character '" + this.char + "'");
 				break;
 			
 			
 			// EVERYTHING ELSE //
 			default:
 				// numbers
-				if(this.is_digit(char)){
+				if(this.is_digit(this.char)){
 					this.scan_number();
 					break;
 				}
 				
 				// identifiers
-				if(this.is_alpha(char)){
+				if(this.is_alpha(this.char)){
 					this.scan_identifier();
 					break;
 				}
 				
 				// unexpected (ignore with error)
-				this.error("unexpected character '" + char + "'");
+				this.error("unexpected character '" + this.char + "'");
 				break;
 		}
 	}
@@ -323,7 +322,7 @@ class Juicescript_lexer {
 		// TRY TO CONSUME UNTIL END OF SOURCE //
 		while(!this.is_at_end()){
 			// do we have a `*/`?
-			if(this.peek(-1) === "*" && this.peek() === "/"){
+			if(this.char === "*" && this.peek() === "/"){
 				// block comment ends here
 				break;
 			}
@@ -391,7 +390,7 @@ class Juicescript_lexer {
 		
 		// HANDLE OTHER BASES //
 		// check for '0' prefix
-		if(this.peek(-1) === "0"){
+		if(this.char === "0"){
 			// assume we have to cut off a prefix of length 2
 			number_string_offset = 2;
 			
@@ -664,7 +663,7 @@ class Juicescript_lexer {
 	}
 	
 	/*
-		HELPER: Automagically add additional info to stderr
+		HELPER: Automagically keep track of problems and add additional info to stderr
 	*/
 	debug(text, additional){
 		// add defaults
