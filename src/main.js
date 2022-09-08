@@ -74,4 +74,11 @@ class Juicescript {
 			/**/console.log(one_token);
 		/**/}
 	}
+	
+	/*
+		Run previously parsed program
+	*/
+	run(){
+		//*/ TODO
+	}
 }
