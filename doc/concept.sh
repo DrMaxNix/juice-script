@@ -168,7 +168,7 @@ pxl|pixel|canv|canvas draw
 
 # the command scope "mycommand1" starts here
 # argument $1 is readonly; $2 is read/write; $3 and $4 are optional and will default to `null`
-def mycommand1 $1 &$2 ($3 $4)
+def mycommand1 $1 &$2 $3? $4?
 
 # current command scope ends here
 end
