@@ -36,7 +36,7 @@ class Juicescript_lexer {
 			this.start = this.end;
 			
 			// consume next character
-			this.char = this.next();
+			this.next();
 			
 			// scan next token
 			this.scan_one();
@@ -556,7 +556,7 @@ class Juicescript_lexer {
 		HELPER: Consume next character from source
 	*/
 	next(){
-		return this.source.charAt(this.end++);
+		this.char = this.source.charAt(this.end++);
 	}
 	
 	/*
