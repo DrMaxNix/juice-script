@@ -107,13 +107,9 @@ if|ifl <cond>
 $1		# same as `$1 == true`
 !$1		# same as `$1 != true`
 
-# loosely typed compare
+# strongly typed compare
 $1 == $2
 $1 != $2
-
-# strongly typed compare
-$1 === $2
-$1 !== $2
 
 # numerical / alphabetical compare
 $1 < $2

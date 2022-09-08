@@ -15,7 +15,6 @@ class Juicescript {
 		// operators
 		"NOT",
 		"EQUAL", "NOT_EQUAL",
-		"STRICT_EQUAL", "STRICT_NOT_EQUAL",
 		"GREATER", "GREATER_EQUAL",
 		"LESS", "LESS_EQUAL",
 		

@@ -78,15 +78,13 @@ class Juicescript_lexer {
 			
 			// OPERATORS //
 			case "!":
-				if		(!this.match("="))		this.token_add({type: Juicescript.token_type.NOT});
-				else if	(!this.match("="))		this.token_add({type: Juicescript.token_type.NOT_EQUAL});
-				else							this.token_add({type: Juicescript.token_type.STRICT_NOT_EQUAL});
+				if		(this.match("="))		this.token_add({type: Juicescript.token_type.NOT_EQUAL});
+				else							this.token_add({type: Juicescript.token_type.NOT});
 				break;
 				
 			case "=":
-				if		(!this.match("="))		this.token_add({type: Juicescript.token_type.EQUAL});
-				else if	(!this.match("="))		this.token_add({type: Juicescript.token_type.EQUAL});
-				else							this.token_add({type: Juicescript.token_type.STRICT_EQUAL});
+				if		(this.match("="))		this.token_add({type: Juicescript.token_type.EQUAL});
+				else							this.warning("unexpected character '" + char + "'");
 				break;
 				
 			case "<":
