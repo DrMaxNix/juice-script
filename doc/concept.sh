@@ -180,11 +180,11 @@ myfunction1 42 $test
 
 
 ## RETURN, END, ETC. ##
-# halt the programm
+# halt the program
 halt
 
 # return from function to parent scope
-# halt programm in root scope
+# halt program in root scope
 exit|return|end
 
 
