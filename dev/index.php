@@ -103,12 +103,23 @@
 			});
 			
 			document.addEventListener("DOMContentLoaded", function(){
+				// handle missing source file
 				if(juice_program === false){
 					juicescript.io.stderr.error("No source file found! Add one at 'dev/juice-program.jce'");
 					return;
 				}
 				
+				// parse source code
+				/**/const parse_start = performance.now();
 				juicescript.parse(juice_program);
+				/**/const parse_end = performance.now();
+				/**/juicescript.io.stderr.info("Parsing took " + (parse_end - parse_start) + "ms");
+				
+				// execute program
+				/**/const run_start = performance.now();
+				juicescript.run();
+				/**/const run_end = performance.now();
+				/**/juicescript.io.stderr.info("Running took " + (run_end - run_start) + "ms");
 			});
 		</script>
 	</head>
