@@ -158,24 +158,24 @@ pxl|pixel|canv|canvas draw
 
 
 
-## FUNCTIONS ##
-# - functions have their own scopes
-# - they can call other functions
+## OWN COMMANDS ##
+# - command definitions have their own scopes
+# - they can call other commands
 # - their own vars are private
 # - they can't acces root-scope's vars (except they were made global using `glob`)
 # - args are copied into local scope
 # - args with &-prefix modify corresponding var in global scope
 
-# the function scope "myfunction1" starts here
+# the command scope "mycommand1" starts here
 # argument $1 is readonly; $2 is read/write; $3 and $4 are optional and will default to `null`
-def myfunction1 $1 &$2 ($3 $4)
+def mycommand1 $1 &$2 ($3 $4)
 
-# current function scope ends here
+# current command scope ends here
 end
 
-# call a function called "myfunction1"
+# call a command called "mycommand1"
 # arg $1 = 42; arg $2 = $test (returned to parent scope)
-myfunction1 42 $test
+mycommand1 42 $test
 
 
 
@@ -183,7 +183,7 @@ myfunction1 42 $test
 # halt the program
 halt
 
-# return from function to parent scope
+# return from command to parent scope
 # halt program in root scope
 exit|return|end
 

@@ -55,7 +55,7 @@ class Juicescript_parser {
 				break;
 			
 			
-			// FUNCTION DEFINITION //
+			// OWN COMMAND DEFINITION //
 			case Juicescript.token_type.DEF:
 				this.parse_def();
 				break;
@@ -82,7 +82,7 @@ class Juicescript_parser {
 	}
 	
 	/*
-		PARSER: Handle function definition
+		PARSER: Handle own command definition
 	*/
 	parse_def(){
 		let parameter_list = [];
@@ -128,7 +128,7 @@ class Juicescript_parser {
 	}
 	
 	/*
-		PARSER: Handle function definition
+		PARSER: Handle `end` command
 	*/
 	parse_end(){
 		/**/this.debug("enter scope root");
