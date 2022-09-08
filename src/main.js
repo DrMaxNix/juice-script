@@ -13,8 +13,8 @@ class Juicescript {
 		"NULL",
 		
 		// operators
-		"NOT",
-		"EQUAL", "NOT_EQUAL",
+		"EQUAL", "NOT",
+		"EQUAL_EQUAL", "NOT_EQUAL",
 		"GREATER", "GREATER_EQUAL",
 		"LESS", "LESS_EQUAL",
 		
@@ -30,6 +30,12 @@ class Juicescript {
 		
 		// meta stuff
 		"EOF"
+	);
+	
+	
+	// ARGUMENT TYPES //
+	static argument_type = new Juicescript_helper_enum(
+		"VARIABLE", "LITERAL"
 	);
 	
 	
@@ -103,6 +109,6 @@ class Juicescript {
 		Run previously parsed program
 	*/
 	run(){
-		//*/ TODO
+		/**/console.log(this.program_tree);
 	}
 }
