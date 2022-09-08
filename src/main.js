@@ -26,6 +26,9 @@ class Juicescript {
 		// special chars
 		"AMPERSAND",
 		
+		// delimiters
+		"DELIMITER",
+		
 		// meta stuff
 		"EOF"
 	);

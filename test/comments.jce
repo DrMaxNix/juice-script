@@ -1,6 +1,5 @@
 mov $1 42 # comment
 mov $1 42 // comment
-mov $1 42 ; comment
 
 # block comments
 /*

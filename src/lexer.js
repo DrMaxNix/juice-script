@@ -63,8 +63,15 @@ class Juicescript_lexer {
 				break;
 			
 			
+			// DELIMITER //
+			case ";":
+				this.token_add({type: Juicescript.token_type.DELIMITER});
+				break;
+			
+			
 			// NEWLINE //
 			case "\n":
+				this.token_add({type: Juicescript.token_type.DELIMITER});
 				this.line++;
 				break;
 			
@@ -113,7 +120,6 @@ class Juicescript_lexer {
 			
 			// COMMENTS //
 			case "#":
-			case ";":
 			case "/":
 				// block comment
 				if(char === "/" && this.match("*")){

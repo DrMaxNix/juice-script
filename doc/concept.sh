@@ -2,7 +2,6 @@
 # one-line comments (from prefix to EOL)
 mov $1 42 # comment
 mov $1 42 // comment
-mov $1 42 ; comment
 
 # block comments
 /*
@@ -12,6 +11,11 @@ mov $1 42 ; comment
 /* Also a block comment */
 
 mov /* Inline block comment */ $1 42
+
+
+## DELIMITERS ##
+# `;` acts like a fake newline
+mov $1 42; typ $1; echo $1
 
 
 ## ESCAPE SEQUENCES AND INTEGER PREFIXES ##
