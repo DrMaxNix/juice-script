@@ -574,7 +574,8 @@ class Juicescript_lexer {
 		if(this.peek(offset) != needle) return false;
 		
 		// consume if it matches
-		this.end += offset + 1;
+		this.end += offset;
+		this.next();
 		return true;
 	}
 	
