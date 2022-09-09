@@ -35,7 +35,7 @@ class Juicescript {
 	
 	// ARGUMENT TYPES //
 	static argument_type = new Juicescript_helper_enum(
-		"VARIABLE", "LITERAL", "OPERATOR"
+		"VARIABLE", "LITERAL", "OPERATOR", "IDENTIFIER"
 	);
 	
 	

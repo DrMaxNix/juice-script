@@ -259,7 +259,7 @@ class Juicescript_parser {
 			this.next();
 			
 			// make sure next has valid type for an argument (also allow operators)
-			if(!this.is_argument(this.token, {operator: true})){
+			if(!this.is_argument(this.token, {operator: true, identifier: true})){
 				// ignore with error
 				this.error_token("expected argument, but got");
 				continue;
@@ -301,6 +301,13 @@ class Juicescript_parser {
 		if(this.is_literal(this.token)){
 			// return object
 			return {type: Juicescript.argument_type.LITERAL, value: this.token.value};
+		}
+		
+		
+		// IDENTIFIER? //
+		if(this.is_identifier(this.token)){
+			// return object
+			return {type: Juicescript.argument_type.IDENTIFIER, identifier: this.token.value};
 		}
 		
 		
@@ -566,12 +573,14 @@ class Juicescript_parser {
 	is_argument(token, options = {}){
 		// SET DEFAULTS FOR OPTIONS //
 		options.operator ??= false;
+		options.identifier ??= false;
 		
 		
 		// CHECK //
 		return	this.is_variable(token) ||
 				(options.operator && this.is_operator(token)) ||
-				this.is_literal(token);
+				this.is_literal(token) ||
+				(options.identifier && this.is_identifier(token));
 	}
 	
 	/*
@@ -609,6 +618,13 @@ class Juicescript_parser {
 			Juicescript.token_type.FALSE,
 			Juicescript.token_type.NULL
 		]).includes(token.type);
+	}
+	
+	/*
+		HELPER: Check if TOKEN is an identifier
+	*/
+	is_identifier(token){
+		return (token.type === Juicescript.token_type.IDENTIFIER);
 	}
 	
 	/*
