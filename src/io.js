@@ -21,6 +21,14 @@ class Juicescript_io {
 	get stderr(){
 		return {
 			debug: (text, additional) => {
+				// PRETTY PRINT INCOMMING DATA? //
+				// object
+				if(typeof text === "object"){
+					text = "Object" + "\n" + JSON.stringify(text, null, 4);
+				}
+				
+				
+				// OUTPUT //
 				// add defaults
 				additional ??= {};
 				additional.line ??= null;

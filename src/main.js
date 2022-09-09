@@ -110,6 +110,7 @@ class Juicescript {
 		Run previously parsed program
 	*/
 	run(){
+		/**/this.io.stderr.debug(this.program_tree);
 		/**/console.log(this.program_tree);
 	}
 }
