@@ -139,6 +139,18 @@ class Juicescript_parser {
 		PARSER: Handle command
 	*/
 	parse_command(){
+		// GET LIST OF ARGUMENTS //
+		let argument_list = this.parse_argument_list();
+		/**/console.log(argument_list);
+		
+		
+		///**/this.command_add({name: this.token.value});
+	}
+	
+	/*
+		PARSER: Handle argument list at current position and return resulting list of objects
+	*/
+	parse_argument_list(){
 		let argument_list = [];
 		while(!this.is_at_end()){
 			// IS NEXT TOKEN A DELIMITER? //
@@ -167,10 +179,10 @@ class Juicescript_parser {
 			// add to list
 			argument_list.push(argument);
 		}
-		/**/console.log(argument_list);
 		
 		
-		///**/this.command_add({name: this.token.value});
+		// RETURN //
+		return argument_list;
 	}
 	
 	/*
