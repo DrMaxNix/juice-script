@@ -485,7 +485,7 @@ class Juicescript_lexer {
 		let identifier = this.source.substring(this.start, this.end);
 		
 		
-		// CHEKC IF THIS IS A SUFFIXED FLAG //
+		// CHECK IF THIS IS A SUFFIXED FLAG //
 		// has `:` after it?
 		if(this.match(":")){
 			// add token
