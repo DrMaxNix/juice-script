@@ -35,7 +35,7 @@ class Juicescript {
 	
 	// ARGUMENT TYPES //
 	static argument_type = new Juicescript_helper_enum(
-		"VARIABLE", "LITERAL"
+		"VARIABLE", "LITERAL", "OPERATOR"
 	);
 	
 	
@@ -79,7 +79,6 @@ class Juicescript {
 		
 		// run lexical analysis
 		let token_list = lexer.scan();
-		/**/console.log(token_list);
 		
 		// stop here if unsuccessful
 		if(lexer.error_count > 0) return false;

@@ -22,7 +22,7 @@ class Juicescript_parser {
 		// current scope
 		this.scope = null;
 		
-		// token list
+		// program tree
 		this.tree = this.program_tree_template();
 		
 		// warning and error counter
@@ -61,7 +61,7 @@ class Juicescript_parser {
 				break;
 			
 			
-			// END //
+			// `END` //
 			case Juicescript.token_type.END:
 				this.parse_end();
 				break;
@@ -70,6 +70,18 @@ class Juicescript_parser {
 			// COMMAND //
 			case Juicescript.token_type.IDENTIFIER:
 				this.parse_command();
+				break;
+			
+			
+			// FLAG //
+			case Juicescript.token_type.FLAG:
+				this.parse_flag();
+				break;
+			
+			
+			// `GLOBAL` //
+			case Juicescript.token_type.GLOBAL:
+				this.parse_global();
 				break;
 			
 			
@@ -85,66 +97,148 @@ class Juicescript_parser {
 		PARSER: Handle own command definition
 	*/
 	parse_def(){
-		let parameter_list = [];
-		while(!this.is_at_end()){
-			// IS NEXT TOKEN A DELIMITER? //
-			if(this.match_type(Juicescript.token_type.DELIMITER)){
-				// end of parameter list
-				break;
-			}
+		// GET COMMAND NAME //
+		// consume name
+		this.next();
+		
+		// make sure token has valid type
+		let name = null;
+		if(this.token.type === Juicescript.token_type.IDENTIFIER){
+			// get from identifier value
+			name = this.token.value;
 			
-			
-			// GET NEXT PARAMETER //
-			// consume next token
-			this.next();
-			/**/continue;
-			
-			// make sure next has valid type for parameter
-			if(!this.is_parameter(this.token)){
-				// ignore with error
-				this.error_token("invalid parameter");
-				continue;
-			}
-			
-			
-			// PARSE PARAMETER //
-			// get parsed object
-			let parameter = this.parse_parameter();
-			
-			// add to list
-			parameter_list.push(parameter);
+		} else {
+			// ignore with error
+			this.error_token("expected identifier, but got");
 		}
-		/**/console.log(parameter_list);
 		
 		
+		// GET LIST OF PARAMETERS //
+		let parameter_list = this.parse_parameter_list();
 		
 		
+		// CAN ONLY BE USED IN ROOT SCOPE //
+		if(this.scope !== null){
+			// ignore with error
+			this.error("'def' can not be used inside a command definition");
+		} 
 		
 		
+		// COMMAND NAME MUST BE UNIQUE //
+		if(Object.keys(this.tree.scope).includes(name)){
+			// ignore with error
+			this.error("connot redefine command '" + name + "'");
+		}
 		
-		/**/this.debug("enter scope " + this.peek().value);
-		/**/this.scope = this.peek().value;
-		/**/this.tree.scope[this.scope] = this.scope_tree_template();
+		
+		// INITIALIZE SCOPE //
+		// ignore if name is invalid
+		if(name === null) return;
+		
+		// enter this command's scope
+		this.scope = name;
+		
+		// create empty scope from template
+		this.scope_tree = this.scope_tree_template();
+		
+		// store parameter list
+		this.scope_tree.parameter = parameter_list;
 	}
 	
 	/*
 		PARSER: Handle `end` command
 	*/
 	parse_end(){
-		/**/this.debug("enter scope root");
-		/**/this.scope = null;
+		// ARE WE IN ROOT SCOPE? //
+		if(this.scope === null){
+			// add as command
+			this.command_add({name: "end"});
+			return;
+		}
+		
+		
+		// EXIT FROM SCOPE //
+		this.scope = null;
 	}
 	
 	/*
 		PARSER: Handle command
 	*/
 	parse_command(){
+		// GET COMMAND NAME //
+		let command = this.token.value;
+		
+		
 		// GET LIST OF ARGUMENTS //
 		let argument_list = this.parse_argument_list();
-		/**/console.log(argument_list);
 		
 		
-		///**/this.command_add({name: this.token.value});
+		// ADD TO LIST OF COMMANDS //
+		this.command_add({name: command, argument: argument_list});
+	}
+	
+	/*
+		PARSER: Handle flag
+	*/
+	parse_flag(){
+		// GET FLAG NAME //
+		let flag = this.token.value;
+		
+		
+		// MAKE SURE THE FLAG NAME IS UNIQUE //
+		if(Object.keys(this.scope_tree.flag).includes(flag)){
+			// ignore with error
+			this.error("can not redefine flag '" + flag + "'");
+		}
+		
+		
+		// ADD TO LIST //
+		// get current scope's command counter
+		let scope_command_count = this.scope_tree.command.length;
+		
+		// store in list
+		this.scope_tree.flag[flag] = {line: this.token.line, command_next: scope_command_count};
+	}
+	
+	/*
+		PARSER: Handle `global` command
+	*/
+	parse_global(){
+		// GET LIST OF PARAMETERS //
+		let parameter_list = this.parse_parameter_list({strict: true});
+		
+		
+		// MAKE SURE WE ARE INSIDE OF A SCOPE //
+		if(this.scope === null){
+			// ignore with error
+			this.error("'global' can only be used inside a command definition");
+			return;
+		}
+		
+		
+		// MAKE SURE THEY ARE DEFINED BEFORE ANY COMMANDS //
+		if(this.scope_tree.command.length > 0){
+			// ignore with error
+			this.error("'global' must come before any other command");
+			return;
+		}
+		
+		
+		// ADD TO LIST OF GLOBAL VARIABLES //
+		for(var one_parameter of parameter_list){
+			// get variable name from parameter
+			let name = one_parameter.name;
+			
+			// check if already in the list
+			if(this.scope_tree.global.includes(name)){
+				// ignore with warning
+				this.warning("variable '" + name + "' is already global");
+				continue;
+			};
+			
+			// add to list
+			this.scope_tree.global.push(name);
+		}
 	}
 	
 	/*
@@ -164,10 +258,10 @@ class Juicescript_parser {
 			// consume next token
 			this.next();
 			
-			// make sure next has valid type for an argument
-			if(!this.is_argument(this.token)){
+			// make sure next has valid type for an argument (also allow operators)
+			if(!this.is_argument(this.token, {operator: true})){
 				// ignore with error
-				this.error_token("invalid argument");
+				this.error_token("expected argument, but got");
 				continue;
 			}
 			
@@ -189,26 +283,126 @@ class Juicescript_parser {
 		PARSER: Handle argument at current position and return resulting object
 	*/
 	parse_argument(){
-		// NEW OJECT //
-		let argument = {};
-		
-		
-		// VARIABLE OR LITERAL? //
+		// VARIABLE? //
 		if(this.is_variable(this.token)){
-			// parse variable
-			let variable = this.parse_variable();
+			// return object
+			return {type: Juicescript.argument_type.VARIABLE, variable: this.parse_variable()};
+		}
+		
+		
+		// OPERATOR? //
+		if(this.is_operator(this.token)){
+			// return object
+			return {type: Juicescript.argument_type.OPERATOR, operator: this.token.type};
+		}
+		
+		
+		// LITERAL? //
+		if(this.is_literal(this.token)){
+			// return object
+			return {type: Juicescript.argument_type.LITERAL, value: this.token.value};
+		}
+		
+		
+		// UNKNOWN //
+		throw "called parse_argument() on non-argument token";
+	}
+	
+	/*
+		PARSER: Handle parameter list at current position with OPTIONS and return resulting list of objects
+	*/
+	parse_parameter_list(options = {}){
+		// SET DEFAULTS FOR OPTIONS //
+		options.strict ??= false;
+		
+		
+		let parameter_list = [];
+		while(!this.is_at_end()){
+			// IS NEXT TOKEN A DELIMITER? //
+			if(this.match_type(Juicescript.token_type.DELIMITER)){
+				// end of parameter list
+				break;
+			}
 			
-			// add to list
-			argument = {type: Juicescript.argument_type.VARIABLE, variable: variable};
 			
-		} else {
-			// add literal
-			argument = {type: Juicescript.argument_type.LITERAL, value: this.token.value};
+			// GET NEXT PARAMETER //
+			// clear stuff
+			let reference = false;
+			let optional = false;
+			
+			// consume next token
+			this.next();
+			
+			
+			// CHECK FOR AMPERSAND PREFIX //
+			if(this.token.type === Juicescript.token_type.AMPERSAND){
+				// if not allowed, ignore with error
+				if(options.strict) this.error_token("modifier not allowed:");
+				
+				// remember
+				reference = true;
+				
+				// consume
+				this.next();
+			}
+			
+			
+			// MAKE SURE TOKEN HAS VALID TYPE FOR A PARAMETER //
+			if(!this.is_variable(this.token)){
+				// ignore with error
+				this.error_token("expected parameter, but got");
+				continue;
+			}
+			
+			
+			// GET PARAMETER NAME //
+			let parameter_name = this.parse_parameter();
+			
+			
+			// CHECK FOR QUESTION MARK SUFFIX //
+			if(this.match_type(Juicescript.token_type.QUESTION_MARK)){
+				// if not allowed, ignore with error
+				if(options.strict) this.error_token("modifier not allowed:");
+				
+				// remember
+				optional = true;
+			}
+			
+			
+			// ADD TO LIST //
+			// ignore if parsing of name was unsuccessful
+			if(parameter_name === null) continue;
+			
+			// build object
+			let parameter = {name: parameter_name, reference: reference, optional: optional};
+			
+			// add
+			parameter_list.push(parameter);
 		}
 		
 		
 		// RETURN //
-		return argument;
+		return parameter_list;
+	}
+	
+	/*
+		PARSER: Handle parameter at current position and return its name
+	*/
+	parse_parameter(){
+		// MAKE SURE VARIABLE HAS A DIRECT NAME //
+		if(this.token.value.length <= 0){
+			// ignore with error
+			this.error_token("expected parameter name, but got", this.peek());
+			return null;
+		}
+		
+		
+		// RETURN NAME //
+		// get name
+		let name = this.token.value;
+		
+		// return
+		return name;
 	}
 	
 	/*
@@ -231,7 +425,7 @@ class Juicescript_parser {
 			// consume argument
 			this.next();
 			
-			// make sure token has valid type for an argument
+			// make sure token has valid type for variable name
 			if(this.is_argument(this.token)){
 				// value of another variable
 				let argument = this.parse_argument();
@@ -259,7 +453,7 @@ class Juicescript_parser {
 			// consume argument
 			this.next();
 			
-			// make sure token has valid type for an argument
+			// make sure token has valid type for list index
 			if(this.is_argument(this.token)){
 				// parse argument
 				let argument = this.parse_argument();
@@ -282,6 +476,36 @@ class Juicescript_parser {
 		
 		// RETURN //
 		return variable;
+	}
+	
+	/*
+		GETTER / SETTER: Return tree of current scope
+	*/
+	get scope_tree(){
+		// are we in root scope?
+		if(this.scope === null){
+			// return root scope
+			return this.tree.root;
+		}
+		
+		// make sure this scope exists
+		if(!Object.keys(this.tree.scope).includes(this.scope)){
+			throw "unknown scope " + this.scope;
+		}
+		
+		// return scope
+		return this.tree.scope[this.scope];
+	}
+	set scope_tree(value){
+		// are we in root scope?
+		if(this.scope === null){
+			// set root scope
+			this.tree.root = value;
+			return;
+		}
+		
+		// set scope
+		this.tree.scope[this.scope] = value;
 	}
 	
 	/*
@@ -339,16 +563,15 @@ class Juicescript_parser {
 	/*
 		HELPER: Check if type of TOKEN is valid for arguments
 	*/
-	is_argument(token){
-		// check lookup table
-		return ([
-			Juicescript.token_type.VARIABLE,
-			Juicescript.token_type.STRING,
-			Juicescript.token_type.NUMBER,
-			Juicescript.token_type.TRUE,
-			Juicescript.token_type.FALSE,
-			Juicescript.token_type.NULL
-		]).includes(token.type);
+	is_argument(token, options = {}){
+		// SET DEFAULTS FOR OPTIONS //
+		options.operator ??= false;
+		
+		
+		// CHECK //
+		return	this.is_variable(token) ||
+				(options.operator && this.is_operator(token)) ||
+				this.is_literal(token);
 	}
 	
 	/*
@@ -356,6 +579,36 @@ class Juicescript_parser {
 	*/
 	is_variable(token){
 		return (token.type === Juicescript.token_type.VARIABLE);
+	}
+	
+	/*
+		HELPER: Check if TOKEN is an operator
+	*/
+	is_operator(token){
+		// check lookup table
+		return ([
+			Juicescript.token_type.NOT,
+			Juicescript.token_type.EQUAL_EQUAL,
+			Juicescript.token_type.NOT_EQUAL,
+			Juicescript.token_type.GREATER,
+			Juicescript.token_type.GREATER_EQUAL,
+			Juicescript.token_type.LESS,
+			Juicescript.token_type.LESS_EQUAL
+		]).includes(token.type);
+	}
+	
+	/*
+		HELPER: Check if TOKEN is a literal
+	*/
+	is_literal(token){
+		// check lookup table
+		return ([
+			Juicescript.token_type.STRING,
+			Juicescript.token_type.NUMBER,
+			Juicescript.token_type.TRUE,
+			Juicescript.token_type.FALSE,
+			Juicescript.token_type.NULL
+		]).includes(token.type);
 	}
 	
 	/*
@@ -384,12 +637,11 @@ class Juicescript_parser {
 		
 		
 		// ADD TO SCOPE'S COMMAND LIST //
-		/**/this.debug("add command " + command.name + " to scope " + (this.scope ?? "root"));
-		/**/console.log(this.scope, command);
-		/**/let scope_command_list = (this.scope === null ? this.tree.root.command : this.tree.scope[this.scope].command);
-		/**/scope_command_list ??= [];
-		/**/scope_command_list.push(command);
-		//*/ TODO
+		// get scope command list
+		let scope_command_list = this.scope_tree.command;
+		
+		// add command object
+		scope_command_list.push(command);
 	}
 	
 	/*
@@ -411,6 +663,7 @@ class Juicescript_parser {
 	*/
 	scope_tree_template(){
 		return {
+			parameter: [],
 			command: [],
 			flag: {},
 			global: []
