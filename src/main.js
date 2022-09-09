@@ -13,7 +13,7 @@ class Juicescript {
 		"NULL",
 		
 		// operators
-		"EQUAL", "NOT",
+		"NOT",
 		"EQUAL_EQUAL", "NOT_EQUAL",
 		"GREATER", "GREATER_EQUAL",
 		"LESS", "LESS_EQUAL",

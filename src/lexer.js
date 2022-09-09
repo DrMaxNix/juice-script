@@ -88,7 +88,7 @@ class Juicescript_lexer {
 				
 			case "=":
 				if		(this.match("="))		this.token_add({type: Juicescript.token_type.EQUAL_EQUAL});
-				else							this.token_add({type: Juicescript.token_type.EQUAL});
+				else							this.error("unexpected character '" + this.char + "'");
 				break;
 				
 			case "<":
