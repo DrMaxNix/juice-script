@@ -180,7 +180,8 @@ class Juicescript_lexer {
 				break;
 			
 			
-			// AMPERSAND //
+			// SPECIAL CHARS //
+			// ampersand
 			case "&":
 				// only if there's a dollar sign after it
 				if(this.peek() === "$"){
@@ -191,6 +192,11 @@ class Juicescript_lexer {
 				
 				// ignore with error
 				this.error("unexpected character '" + this.char + "'");
+				break;
+			
+			// question mark
+			case "?":
+				this.token_add({type: Juicescript.token_type.QUESTION_MARK});
 				break;
 			
 			

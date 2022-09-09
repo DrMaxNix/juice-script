@@ -23,7 +23,7 @@ class Juicescript {
 		"BRACKET_CURLY_OPEN", "BRACKET_CURLY_CLOSE",
 		
 		// special chars
-		"AMPERSAND",
+		"AMPERSAND", "QUESTION_MARK",
 		
 		// delimiters
 		"DELIMITER",
@@ -79,6 +79,7 @@ class Juicescript {
 		
 		// run lexical analysis
 		let token_list = lexer.scan();
+		/**/console.log(token_list);
 		
 		// stop here if unsuccessful
 		if(lexer.error_count > 0) return false;
