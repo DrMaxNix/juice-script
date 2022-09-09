@@ -24,7 +24,7 @@ class Juicescript_io {
 				// PRETTY PRINT INCOMMING DATA? //
 				// object
 				if(typeof text === "object"){
-					text = "Object" + "\n" + JSON.stringify(text, null, 4);
+					text = "Object" + "\n" + JSON.stringify(text, null, 4) + "\n";
 				}
 				
 				

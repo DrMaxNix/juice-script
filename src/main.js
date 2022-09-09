@@ -111,6 +111,5 @@ class Juicescript {
 	*/
 	run(){
 		/**/this.io.stderr.debug(this.program_tree);
-		/**/console.log(this.program_tree);
 	}
 }
