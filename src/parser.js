@@ -211,7 +211,7 @@ class Juicescript_parser {
 		
 		
 		// GET VARIABLE NAME //
-		if(this.token.value !== null){
+		if(this.token.value.length > 0){
 			// literal
 			variable.name = {type: Juicescript.argument_type.LITERAL, value: this.token.value};
 			
@@ -238,7 +238,7 @@ class Juicescript_parser {
 			
 		} else {
 			// ignore with error
-			this.error("unable to determine variable name");
+			this.error("variable without name");
 		}
 		
 		
