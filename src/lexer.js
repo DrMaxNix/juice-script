@@ -46,7 +46,8 @@ class Juicescript_lexer {
 		// ADD END-OF-FILE TOKEN //
 		this.token_add({
 			type: Juicescript.token_type.EOF,
-			line: this.line
+			line: this.line,
+			lexeme: ""
 		});
 		
 		
