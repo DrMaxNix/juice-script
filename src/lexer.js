@@ -184,15 +184,7 @@ class Juicescript_lexer {
 			// SPECIAL CHARS //
 			// ampersand
 			case "&":
-				// only if there's a dollar sign after it
-				if(this.peek() === "$"){
-					// add token
-					this.token_add({type: Juicescript.token_type.AMPERSAND});
-					break;
-				}
-				
-				// ignore with error
-				this.error("unexpected character '" + this.char + "'");
+				this.token_add({type: Juicescript.token_type.AMPERSAND});
 				break;
 			
 			// question mark
@@ -363,21 +355,6 @@ class Juicescript_lexer {
 		
 		// get consumed string
 		let variable = this.source.substring(this.start + 1, this.end);
-		
-		
-		// CHECK IF THERE EVEN IS A NAME //
-		if(variable.length <= 0){
-			// has curly bracket after it?
-			if(this.peek() === "{"){
-				// add token without value
-				this.token_add({type: Juicescript.token_type.VARIABLE});
-				return;
-			}
-			
-			// ignore with error
-			this.error("unexpected character '" + this.source.charAt(this.start) + "'");
-			return;
-		}
 		
 		
 		// ADD TOKEN //
