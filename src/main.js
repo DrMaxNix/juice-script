@@ -109,6 +109,13 @@ class Juicescript {
 		Run previously parsed program
 	*/
 	run(){
-		/**/this.io.stderr.debug(this.program_tree);
+		// RUN //
+		// get runner
+		let runner = new Juicescript_runner(this.program_tree, {
+			io: this.io
+		});
+		
+		// run the program
+		runner.run();
 	}
 }
