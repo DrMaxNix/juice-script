@@ -1,6 +1,6 @@
 class Juicescript_parser {
 	/*
-		CONSTRUCTOR: Return new juicescript lexer for SOURCE with OPTIONS
+		CONSTRUCTOR: Return new juicescript parser for TOKEN-LIST with OPTIONS
 	*/
 	constructor(token_list, options){
 		// STORE ARGUMENTS //
