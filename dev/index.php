@@ -68,6 +68,13 @@
 					echo("\n");
 				}
 			}
+			
+			foreach(scandir("../src/command") as $one_file){
+				if(is_file("../src/command/" . $one_file)){
+					require("../src/command/" . $one_file);
+					echo("\n");
+				}
+			}
 		?></script>
 		
 		<script type="text/javascript">

@@ -40,6 +40,11 @@ class Juicescript {
 	
 	
 	
+	// COMMAND FUNCTIONS //
+	static command = {};
+	
+	
+	
 	/*
 		CONSTRUCTOR: Return new juicescript parser with OPTIONS
 	*/
@@ -117,5 +122,22 @@ class Juicescript {
 		
 		// run the program
 		runner.run();
+	}
+	
+	/*
+		HELPER: Add command with expanded command aliases to command function list
+	*/
+	static command_add(command){
+		for(var name_or_alias of command.alias.concat([command.name])){
+			// MAKE SURE WE'RE NOT RE-DEFINING IT //
+			if(Object.keys(Juicescript.command).includes(name_or_alias)){
+				// throw error
+				throw "cannot redefine command '" + name_or_alias + "'";
+			}
+			
+			
+			// ADD //
+			Juicescript.command[name_or_alias] = command;
+		}
 	}
 }
