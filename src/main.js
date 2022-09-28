@@ -1,4 +1,3 @@
-"use strict";
 class Juicescript {
 	// TOKEN TYPES //
 	static token_type = new Juicescript_helper_enum(

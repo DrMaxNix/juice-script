@@ -55,6 +55,7 @@
 		</style>
 		
 		<script type="text/javascript"><?php
+			"use strict";
 			foreach(scandir("../src/helper") as $one_file){
 				if(is_file("../src/helper/" . $one_file)){
 					require("../src/helper/" . $one_file);
