@@ -185,7 +185,7 @@ halt
 
 # return from command to parent scope
 # halt program in root scope
-exit|return|end
+exit|return
 
 
 

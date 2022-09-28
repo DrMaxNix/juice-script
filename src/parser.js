@@ -160,8 +160,8 @@ class Juicescript_parser {
 	parse_end(){
 		// ARE WE IN ROOT SCOPE? //
 		if(this.scope === null){
-			// add as command
-			this.command_add({name: "end"});
+			// unexpected (ignore with error)
+			this.error_token("unexpected token");
 			return;
 		}
 		
