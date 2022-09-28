@@ -92,6 +92,7 @@
 					span_one_line.textContent = one_line;
 					
 					document.getElementById("text-output-area").appendChild(span_one_line);
+					document.getElementById("text-output-area").scrollTop = document.getElementById("text-output-area").scrollHeight;
 				}
 			}
 			let my_error_callback = function(text, type){
@@ -101,6 +102,7 @@
 				span_one_line.textContent = text + "\n";
 				
 				document.getElementById("text-output-area").appendChild(span_one_line);
+				document.getElementById("text-output-area").scrollTop = document.getElementById("text-output-area").scrollHeight;
 			}
 			
 			let juicescript = new Juicescript({
