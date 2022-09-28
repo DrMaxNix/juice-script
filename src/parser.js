@@ -121,13 +121,22 @@ class Juicescript_parser {
 		if(this.scope !== null){
 			// ignore with error
 			this.error("'def' can not be used inside a command definition");
-		} 
+		}
 		
 		
 		// COMMAND NAME MUST BE UNIQUE //
+		// check against built-in commands
+		if(Object.keys(Juicescript.command).includes(name)){
+			// ignore with error
+			this.error("connot redefine built-in command '" + name + "'");
+			name = null;
+		}
+		
+		// check against user-defined commands
 		if(Object.keys(this.tree.scope).includes(name)){
 			// ignore with error
-			this.error("connot redefine command '" + name + "'");
+			this.error("connot redefine user-defined command '" + name + "'");
+			name = null;
 		}
 		
 		
