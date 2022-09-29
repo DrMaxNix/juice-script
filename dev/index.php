@@ -54,6 +54,7 @@
 			span.line.stderr-error { color: var(--onedark-red); }
 		</style>
 		
+<<<<<<< HEAD
 		<script type="text/javascript">
 			"use strict";
 			<?php
@@ -62,6 +63,14 @@
 						require("../src/helper/" . $one_file);
 						echo("\n");
 					}
+=======
+		<script type="text/javascript"><?php
+			"use strict";
+			foreach(scandir("../src/helper") as $one_file){
+				if(is_file("../src/helper/" . $one_file)){
+					require("../src/helper/" . $one_file);
+					echo("\n");
+>>>>>>> ad46b667aec6e43e2a4ff5661beb83154c09154b
 				}
 				
 				foreach(scandir("../src") as $one_file){
