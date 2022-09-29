@@ -1,4 +1,3 @@
-"use strict";
 class Juicescript_helper_enum {
 	constructor(...keys){
 		keys.forEach((key, i) => {
