@@ -167,7 +167,7 @@ class Juicescript_runner {
 	}
 	
 	/*
-		COMMAND HELPER: Validate type of command arguments
+		COMMAND HELPER: Validate type of one command argument
 	*/
 	argument_validate_type(number, type){
 		// GET WANTED ARGUMENT'S ACTUAL TYPE //
