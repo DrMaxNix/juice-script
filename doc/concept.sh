@@ -225,6 +225,9 @@ time $1
 # get formated time => $1
 time $1 "YYYY-MM-DD"
 
+# get random float between 0.0 and 1.0 => $1
+rnd|rand|random $1
+
 # get random integer between 0 and 3 => $1
 rnd|rand|random $1 3
 
