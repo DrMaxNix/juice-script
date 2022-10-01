@@ -22,6 +22,9 @@ class Juicescript_runner {
 		// current scope
 		this.scope = null;
 		
+		// scope variable stack
+		this.variable_stack = [{}];
+		
 		// warning and error counter
 		this.warning_count = 0;
 		this.error_count = 0;
@@ -201,6 +204,164 @@ class Juicescript_runner {
 		if(actual_type !== type){
 			this.error(this.command.name + ", argument " + number + ": expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
 		}
+	}
+	
+	/*
+		COMMAND HELPER: Get one command argument with NUMBER
+	*/
+	argument(number){
+		// GET WANTED ARGUMENT //
+		// make sure this argument number exists
+		if(this.command.argument.length < number){
+			throw "unable to extract value of argument " + number + ", command " + this.command.name + " (not defined)";
+		}
+		
+		// get argument object
+		let argument = this.command.argument[(number - 1)];
+		
+		
+		// RETURN //
+		return argument;
+	}
+	
+	/*
+		COMMAND HELPER: Get raw value of one command argument
+	*/
+	argument_value(number){
+		// GET WANTED ARGUMENT //
+		let argument = this.argument(number);
+		
+		
+		// RESOLVE VALUE //
+		return this.argument_resolve(argument);
+	}
+	
+	/*
+		COMMAND HELPER: Get absolute variable object of one command argument
+	*/
+	argument_variable(number){
+		// GET WANTED ARGUMENT //
+		// get by number
+		let argument = this.argument(number);
+		
+		// validate type
+		if(argument.type !== Juicescript.argument_type.VARIABLE){
+			throw "called `argument_variable()` on non-variable argument";
+		}
+		
+		
+		// RESOLVE VARIABLE //
+		return this.variable_resolve(argument.variable);
+	}
+	
+	/*
+		HELPER: Resolve the value of a nested argument object
+	*/
+	argument_resolve(argument){
+		// LITERAL //
+		if(argument.type == Juicescript.argument_type.LITERAL){
+			// return its value
+			return argument.value;
+		}
+		
+		
+		// VARIABLE //
+		if(argument.type == Juicescript.argument_type.VARIABLE){
+			// resolve variable
+			let variable = this.variable_resolve(argument.variable);
+			
+			// get this variable's value
+			let value = this.variable_get(variable);
+			
+			// return the value
+			return value;
+		}
+		
+		
+		// THROW ERROR ON EVERYTHING ELSE //
+		throw "unable to extract value of argument " + number + ", command " + this.command.name + " (unexpected type)";
+	}
+	
+	/*
+		VARIABLE HELPER: Resolve variable to absolute name and index list
+	*/
+	variable_resolve(relative_variable){
+		// RESOLVE //
+		// get variable's absolute name
+		let name = this.argument_resolve(relative_variable.name);
+		
+		// get variable's absolute index list
+		let index = [];
+		for(var one_index of relative_variable.index){
+			index.push(this.argument_resolve(one_index));
+		}
+		
+		
+		// RETURN ABSOLUTE VARIABLE OBJECT //
+		// build object
+		let variable = {name: name, index: index};
+		
+		// return
+		return variable;
+	}
+	
+	/*
+		VARIABLE HELPER: Get a variable's value
+	*/
+	variable_get(variable){
+		// FIND VARIABLE IN STACK //
+		// check if global
+		/**/let is_global = false;
+		
+		// get index on stack
+		let stack_index = this.variable_stack.length - 1;
+		if(is_global) stack_index = 0;
+		
+		// get index' full variable list
+		let variable_list = this.variable_stack[stack_index];
+		
+		// try to load value from stack
+		let value = null;
+		if(Object.keys(variable_list).includes(variable.name)){
+			value = variable_list[variable.name];
+		}
+		
+		
+		// APPLY INDEXES //
+		/**/if(variable.index.length > 0) this.warning("yet to be implemented");
+		
+		
+		// RETURN VALUE //
+		return value;
+	}
+	
+	/*
+		VARIABLE HELPER: Set a variable's value
+	*/
+	variable_set(variable, value){
+		// FIND VARIABLE IN STACK //
+		// check if global
+		/**/let is_global = false;
+		
+		// get index on stack
+		let stack_index = this.variable_stack.length - 1;
+		if(is_global) stack_index = 0;
+		
+		// get index' full variable list
+		let variable_list = this.variable_stack[stack_index];
+		
+		// set value on stack
+		variable_list[variable.name] = value;
+	}
+	
+	/*
+		GETTER: Check if there was a warning/error so far
+	*/
+	get has_warning(){
+		return (this.warning_count > 0);
+	}
+	get has_error(){
+		return (this.error_count > 0);
 	}
 	
 	/*
