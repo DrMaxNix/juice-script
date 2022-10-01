@@ -14,6 +14,15 @@ Juicescript.command_define({
 	},
 	
 	execute: function(runner){
+		// CONCATENATE ALL ARGUMENTS //
+		let string = "";
+		for(var q = 1; q <= runner.command.argument.length; q++){
+			// append to string
+			string += runner.argument_value(q).toString();
+		}
 		
+		
+		// PRINT TO STDOUT //
+		runner.io.stdout(string);
 	}
 });
