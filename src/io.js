@@ -22,7 +22,7 @@ class Juicescript_io {
 			debug: (text, additional) => {
 				// PRETTY PRINT INCOMMING DATA? //
 				// object
-				if(typeof text === "object"){
+				if(text !== null && typeof text === "object"){
 					text = "Object" + "\n" + JSON.stringify(text, null, 4) + "\n";
 				}
 				
