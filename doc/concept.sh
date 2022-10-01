@@ -132,7 +132,7 @@ jmp|jump|goto "flag1"
 
 
 ## TEXT IO ##
-# print "blabliblub"
+# print "blabliblub" in its own line
 drw|draw|echo "bla" "bli" "blub"
 
 # print "blabliblub", await user response (until newline/enter) and return entered line as $1
