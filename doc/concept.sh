@@ -120,9 +120,6 @@ $1 >= $2
 
 
 ## JUMPS ##
-# jump to line 42 (jumping to lines inside of other scopes is not allowed)
-jmp|jump|goto 42
-
 # jump to a flag called "flag1" (flags are stored per-scope)
 jmp|jump|goto "flag1"
 
