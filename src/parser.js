@@ -512,7 +512,7 @@ class Juicescript_parser {
 		
 		// make sure this scope exists
 		if(!Object.keys(this.tree.scope).includes(this.scope)){
-			throw "unknown scope " + this.scope;
+			throw "unknown scope '" + this.scope + "'";
 		}
 		
 		// return scope

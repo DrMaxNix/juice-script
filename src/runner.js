@@ -114,7 +114,7 @@ class Juicescript_runner {
 		
 		// make sure this scope exists
 		if(!Object.keys(this.tree.scope).includes(this.scope)){
-			throw "unknown scope " + this.scope;
+			throw "unknown scope '" + this.scope + "'";
 		}
 		
 		// return scope
