@@ -42,6 +42,19 @@ class Juicescript {
 	);
 	
 	
+	// VARIABLE TYPES //
+	static variable_type = new Juicescript_helper_enum(
+		// null
+		"NULL",
+		
+		// boolean
+		"BOOl",
+		
+		// string
+		"NUM", "STR"
+	);
+	
+	
 	
 	// COMMAND FUNCTIONS //
 	static command = {};

@@ -336,6 +336,42 @@ class Juicescript_runner {
 	}
 	
 	/*
+		VARIABLE HELPER: Get a variable's data type
+	*/
+	variable_type(variable){
+		// LOAD VALUE //
+		let value = this.variable_get(variable);
+		
+		
+		// CHECK SPECIAL CASES //
+		// null
+		if(value === null){
+			return Juicescript.variable_type.NULL;
+		}
+		
+		
+		// CONVERT TO ENUM FROM JAVASCRIPT TYPE //
+		// get javascript's type
+		let js_type = typeof value;
+		
+		// try to convert to enum
+		let type = ({
+			"number": Juicescript.variable_type.NUM,
+			"boolean": Juicescript.variable_type.BOOl,
+			"string": Juicescript.variable_type.STR,
+		})[js_type] ?? null;
+		
+		// lookup error?
+		if(type === null){
+			throw "unable to convert javascript type '" + js_type + "'";
+		}
+		
+		
+		// RETURN //
+		return type;
+	}
+	
+	/*
 		VARIABLE HELPER: Set a variable's value
 	*/
 	variable_set(variable, value){
