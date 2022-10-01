@@ -40,6 +40,12 @@ class Juicescript_parser {
 		}
 		
 		
+		// MAKE SURE WE'RE BACK TO ROOT SCOPE //
+		if(this.scope !== null){
+			this.warning("unterminated command definition '" + this.scope + "'");
+		}
+		
+		
 		// RETURN PROGRAM TREE //
 		return this.tree;
 	}
