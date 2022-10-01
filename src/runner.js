@@ -122,6 +122,81 @@ class Juicescript_runner {
 	}
 	
 	/*
+		COMMAND HELPER: Validate number of command arguments
+	*/
+	argument_validate_count(count){
+		// CONVERT SIMPLE FORM TO MIN / MAX //
+		if(Number.isInteger(count)){
+			count = {min: count, max: count};
+		}
+		
+		
+		// CHECK //
+		// get actual argument count
+		let actual_count = this.command.argument.length;
+		
+		// maybe compare against list
+		if(Array.isArray(count)){
+			if(!count.includes(actual_count)){
+				this.error(this.command.name + ": invalid argument count (" + count.join(" or ") + " expected)");
+			}
+			return;
+		}
+		
+		// build range string
+		let range_string;
+		if(count.min === count.max){
+			range_string = count.min;
+			
+		} else if(count.max === null){
+			range_string = "at least " + count.min;
+			
+		} else {
+			range_string = count.min + " to " + count.max;
+		}
+		
+		// too few arguments
+		if(actual_count < count.min){
+			this.error(this.command.name + ": too few arguments (" + range_string + " expected)");
+		}
+		
+		// too many arguments
+		if(count.max !== null && actual_count > count.max){
+			this.error(this.command.name + ": too many arguments (" + range_string + " expected)");
+		}
+	}
+	
+	/*
+		COMMAND HELPER: Validate type of command arguments
+	*/
+	argument_validate_type(number, type){
+		// GET WANTED ARGUMENT'S ACTUAL TYPE //
+		// make sure this argument number exists
+		if(this.command.argument.length < number){
+			throw "unable to validate type of argument " + number + ", command " + this.command.name;
+		}
+		
+		// load
+		let actual_type = this.command.argument[(number - 1)].type;
+		
+		
+		// COMPARE AGAINST META TYPES //
+		// value
+		if(type === Juicescript.argument_type.VALUE){
+			if(![Juicescript.argument_type.VARIABLE, Juicescript.argument_type.LITERAL].includes(actual_type)){
+				this.error(this.command.name + ", argument " + number + ": expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
+			}
+			return;
+		}
+		
+		
+		// COMPARE AGAINST PARSABLE TYPES //
+		if(actual_type !== type){
+			this.error(this.command.name + ", argument " + number + ": expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
+		}
+	}
+	
+	/*
 		HELPER: Automagically keep track of problems and add additional info to stderr
 	*/
 	debug(text, additional){
