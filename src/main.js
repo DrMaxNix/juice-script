@@ -130,7 +130,29 @@ class Juicescript {
 	/*
 		HELPER: Add command with expanded command aliases to command function list
 	*/
-	static command_add(command){
+	static command_define(command){
+		// CHECK IF ALL ATTRIBUTES HAVE BEEN SET //
+		// name
+		if(!Object.keys(command).includes("name")){
+			throw "command definition missing its name";
+		}
+		
+		// alias
+		if(!Object.keys(command).includes("alias")){
+			throw "command definition '" + command.name + "' missing its alias list";
+		}
+		
+		// validate function
+		if(!(command.validate instanceof Function)){
+			throw "command definition '" + command.name + "' missing its validate function";
+		}
+		
+		// execute function
+		if(!(command.execute instanceof Function)){
+			throw "command definition '" + command.name + "' missing its execute function";
+		}
+		
+		
 		for(var name_or_alias of command.alias.concat([command.name])){
 			// MAKE SURE WE'RE NOT RE-DEFINING IT //
 			if(Object.keys(Juicescript.command).includes(name_or_alias)){

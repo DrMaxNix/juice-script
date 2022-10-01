@@ -30,7 +30,7 @@ class Juicescript_runner {
 		// RUN FULL PROGRAM //
 		while(true){
 			// end execution on error
-			if(this.error_count > 0) break;
+			if(this.has_error) break;
 			
 			// handle end of command list
 			if(this.handle_command_list_end()) break;
@@ -52,8 +52,15 @@ class Juicescript_runner {
 	run_one(){
 		// TRY AS BUILT-IN COMMAND //
 		if(Object.keys(Juicescript.command).includes(this.command.name)){
-			// execute function
-			Juicescript.command[this.command.name].function(this);
+			// run validate function
+			Juicescript.command[this.command.name].validate(this);
+			
+			// maybe run execute function
+			if(!this.has_error){
+				Juicescript.command[this.command.name].execute(this);
+			}
+			
+			// done
 			return;
 		}
 		
