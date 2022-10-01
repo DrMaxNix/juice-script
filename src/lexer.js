@@ -642,6 +642,17 @@ class Juicescript_lexer {
 		token.value = options.value ?? null;
 		
 		
+		// TRY TO GUESS VALUE //
+		if(token.value === null){
+			if(token.type === Juicescript.token_type.TRUE){
+				token.value = true;
+				
+			} else if(token.type === Juicescript.token_type.FALSE){
+				token.value = false;
+			}
+		}
+		
+		
 		// ADD TO LIST //
 		this.token_list.push(token);
 	}
