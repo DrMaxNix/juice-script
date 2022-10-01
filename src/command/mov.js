@@ -14,8 +14,13 @@ Juicescript.command_define({
 	
 	execute: function(runner){
 		// ASSIGN VALUE //
-		// get value to assign
+		// resolve first argument to absolute variable object
+		let variable = runner.argument_variable(1);
+		
+		// get value to assign from second argument
 		let value = runner.argument_value(2);
-		/**/runner.debug(value);
+		
+		// assign value to variable
+		runner.variable_set(variable, value);
 	}
 });
