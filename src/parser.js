@@ -339,6 +339,7 @@ class Juicescript_parser {
 		
 		
 		let parameter_list = [];
+		let had_optional = false;
 		while(!this.is_at_end()){
 			// IS NEXT TOKEN A DELIMITER? //
 			if(this.match_type(Juicescript.token_type.DELIMITER)){
@@ -388,6 +389,13 @@ class Juicescript_parser {
 				
 				// remember
 				optional = true;
+				had_optional = true;
+			}
+			
+			// make sure optional parameters are followed by optional ones
+			if(had_optional && !optional){
+				// ignore with error
+				this.error_token("parameter must be optional:");
 			}
 			
 			
