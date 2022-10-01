@@ -379,7 +379,16 @@ class Juicescript_parser {
 			
 			
 			// GET PARAMETER NAME //
+			// parse
 			let parameter_name = this.parse_parameter();
+			
+			// make sure it's unique
+			for(var one_parameter of parameter_list){
+				if(one_parameter.name === parameter_name){
+					// ignore with error
+					this.error_token("same parameter name used twice:");
+				}
+			}
 			
 			
 			// CHECK FOR QUESTION MARK SUFFIX //
