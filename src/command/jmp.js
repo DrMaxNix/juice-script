@@ -21,8 +21,8 @@ Juicescript.command_define({
 		
 		// check if this flag exists
 		if(!Object.keys(flag_list).includes(flag)){
-			// ignore with error
-			runner.error("unknown flag '" + flag + "'");
+			// ignore with warning
+			runner.warning("unknown flag '" + flag + "'");
 			return;
 		}
 		
