@@ -109,7 +109,7 @@ class Juicescript_parser {
 			
 		} else {
 			// ignore with error
-			this.error_token("expected identifier, but got");
+			this.error_token("expected IDENTIFIER, but got");
 		}
 		
 		
@@ -270,7 +270,7 @@ class Juicescript_parser {
 			// make sure next has valid type for an argument (also allow operators)
 			if(!this.is_argument(this.token, {operator: true, identifier: true})){
 				// ignore with error
-				this.error_token("expected argument, but got");
+				this.error_token("expected ARGUMENT, but got");
 				continue;
 			}
 			
@@ -366,7 +366,7 @@ class Juicescript_parser {
 			// MAKE SURE TOKEN HAS VALID TYPE FOR A PARAMETER //
 			if(!this.is_variable(this.token)){
 				// ignore with error
-				this.error_token("expected parameter, but got");
+				this.error_token("expected PARAMETER, but got");
 				continue;
 			}
 			
@@ -408,7 +408,7 @@ class Juicescript_parser {
 		// MAKE SURE VARIABLE HAS A DIRECT NAME //
 		if(this.token.value.length <= 0){
 			// ignore with error
-			this.error_token("expected parameter name, but got", this.peek());
+			this.error_token("expected PARAMETER NAME, but got", this.peek());
 			return null;
 		}
 		
@@ -449,7 +449,7 @@ class Juicescript_parser {
 				
 			} else {
 				// ignore with error
-				this.error_token("expected variable name, but got");
+				this.error_token("expected VARIABLE NAME, but got");
 			}
 			
 			// consume curly closing bracket
@@ -479,7 +479,7 @@ class Juicescript_parser {
 				
 			} else {
 				// ignore with error
-				this.error_token("expected list index, but got");
+				this.error_token("expected LIST INDEX, but got");
 			}
 			
 			// consume square closing bracket
@@ -705,7 +705,7 @@ class Juicescript_parser {
 		
 		// HANDLE TOKEN //
 		// get token type name
-		let type_name = Juicescript.token_type.name(token.type).toLowerCase();
+		let type_name = Juicescript.token_type.name(token.type);
 		
 		// try to get lexeme
 		let lexeme = null;
