@@ -18,7 +18,7 @@ mov /* Inline block comment */ $1 42
 mov $1 42; typ $1; echo $1
 
 
-## ESCAPE SEQUENCES AND INTEGER PREFIXES ##
+## ESCAPE SEQUENCES AND NUMBER PREFIXES ##
 # quote escaping
 "Here comes a quote: \"Lorem ipsum\". This had to be escaped!"
 "Here comes another quote: 'Lorem ipsum'. This didn't require escaping!"
@@ -29,7 +29,7 @@ mov $1 42; typ $1; echo $1
 "\u2764\ufe0f"	# utf-8 for ❤️
 ...
 
-# integers
+# numbers
 0x10		# hexadecimal:	16
 0o10		# octal:	8
 0b0100		# binary:	4
@@ -43,20 +43,20 @@ move|mov|set $1 $2
 # load $1 from root scope into current scope
 glob|global|pub|public $1
 
-# vartypes (constants containing string of vartype name)
-null			# null
-true|false		# bool
-eg. -44 27 287634	# int
-eg. 4.0 -3.0 0.125	# float
-eg. "bla" 'blub'	# str
+# vartypes
+null				# null (internal: null)
+true|false			# bool (internal: boolean)
+eg. -44 27 287634	# num (internal: float)
+eg. 4.0 -3.0 0.125	# num (internal: float)
+eg. "bla" 'blub'	# str (internal: string)
 
 # vartype($1) => $1
 typ|type $1
 
-# cast $1 to type-string stored in $2 / to int
+# cast $1 to type-string stored in $2 / to num
 cst|cast $1 $2
-cst|cast $1 "int"
-cst|cast $1 int
+cst|cast $1 "num"
+cst|cast $1 num
 
 # use contents of a var as var-name (todo: is there a more assembly-like way for this?)
 ${$name}
