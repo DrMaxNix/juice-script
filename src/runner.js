@@ -19,11 +19,11 @@ class Juicescript_runner {
 		// command counter
 		this.counter = 0;
 		
-		// current scope
-		this.scope = null;
-		
-		// scope variable stack
-		this.variable_stack = [{}];
+		// scope and variable stack
+		this.stack = [{
+			scope: null,
+			variable: {}
+		}];
 		
 		// warning and error counter
 		this.warning_count = 0;
@@ -110,6 +110,14 @@ class Juicescript_runner {
 	*/
 	command_load(){
 		this.command = this.scope_tree.command[this.counter];
+	}
+	
+	
+	/*
+		GETTER: Return name of current scope (top of stack)
+	*/
+	get scope(){
+		return this.stack[this.stack.length - 1].scope;
 	}
 	
 	/*
@@ -314,11 +322,11 @@ class Juicescript_runner {
 		/**/let is_global = false;
 		
 		// get index on stack
-		let stack_index = this.variable_stack.length - 1;
+		let stack_index = this.stack.length - 1;
 		if(is_global) stack_index = 0;
 		
 		// get index' full variable list
-		let variable_list = this.variable_stack[stack_index];
+		let variable_list = this.stack[stack_index].variable;
 		
 		// try to load value from stack
 		let value = null;
@@ -380,11 +388,11 @@ class Juicescript_runner {
 		/**/let is_global = false;
 		
 		// get index on stack
-		let stack_index = this.variable_stack.length - 1;
+		let stack_index = this.stack.length - 1;
 		if(is_global) stack_index = 0;
 		
 		// get index' full variable list
-		let variable_list = this.variable_stack[stack_index];
+		let variable_list = this.stack[stack_index].variable;
 		
 		// set value on stack
 		variable_list[variable.name] = value;
