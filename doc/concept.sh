@@ -235,7 +235,7 @@ rnd|rand|random $1 5 13
 
 ## STRING MANIPULATION ##
 # get number $1 as string
-cast $1 str
+cst|cast $1 str
 
 # get utf-8 char with id $1 => $1
 chr $1
