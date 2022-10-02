@@ -22,7 +22,7 @@ Juicescript.command_define({
 		let type = runner.variable_type(variable);
 		
 		// convert to string
-		let type_string = Juicescript.variable_type.name(type).toLowerCase();
+		let type_string = Juicescript.data_type.name(type).toLowerCase();
 		
 		
 		// STORE BACK INTO VARIABLE //
