@@ -33,7 +33,7 @@ Juicescript.command_define({
 			let data_type = runner.data_type(add);
 			if(data_type !== Juicescript.data_type.NUM && data_type !== Juicescript.data_type.STR){
 				// ignore with warning
-				runner.warning_argument(q, "invalid data type " + Juicescript.data_type.name(data_type));
+				runner.warning_argument(q, "expected data type NUM or STR, but got " + Juicescript.data_type.name(data_type));
 				continue;
 			}
 			

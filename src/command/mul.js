@@ -35,7 +35,7 @@ Juicescript.command_define({
 			let factor_data_type = runner.data_type(factor);
 			if(factor_data_type !== Juicescript.data_type.NUM){
 				// ignore with warning
-				runner.warning_argument(q, "invalid data type " + Juicescript.data_type.name(factor_data_type));
+				runner.warning_argument(q, "expected data type NUM, but got " + Juicescript.data_type.name(factor_data_type));
 				continue;
 			}
 			

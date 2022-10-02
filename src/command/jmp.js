@@ -16,6 +16,14 @@ Juicescript.command_define({
 		// flag name
 		let flag = runner.argument_value(1);
 		
+		// validate data type
+		let data_type = runner.data_type(flag);
+		if(data_type !== Juicescript.data_type.STR){
+			// ignore with warning
+			runner.warning_argument(1, "expected data type STR, but got " + Juicescript.data_type.name(data_type));
+			return;
+		}
+		
 		// load this scope's flag list
 		let flag_list = runner.scope_tree.flag;
 		
