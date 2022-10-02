@@ -43,12 +43,12 @@ class Juicescript {
 	
 	
 	// VARIABLE TYPES //
-	static variable_type = new Juicescript_helper_enum(
+	static data_type = new Juicescript_helper_enum(
 		// null
 		"NULL",
 		
 		// boolean
-		"BOOl",
+		"BOOL",
 		
 		// string
 		"NUM", "STR"
