@@ -18,7 +18,7 @@ Juicescript.command_define({
 		let string = "";
 		for(var q = 1; q <= runner.command.argument.length; q++){
 			// append to string
-			string += runner.argument_value(q).toString();
+			string += runner.stringify(runner.argument_value(q));
 		}
 		
 		

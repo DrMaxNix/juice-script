@@ -409,6 +409,20 @@ class Juicescript_runner {
 	}
 	
 	/*
+		HELPER: Express VALUE as a string
+	*/
+	stringify(value){
+		// NULL //
+		if(value === null){
+			return "null";
+		}
+		
+		
+		// TRY JAVASCRIPT'S `toString()` //
+		return value.toString();
+	}
+	
+	/*
 		HELPER: Automagically keep track of problems and add additional info to stderr
 	*/
 	debug(text, additional){
