@@ -320,7 +320,7 @@ class Juicescript_runner {
 		// value
 		if(type === Juicescript.argument_type.VALUE){
 			if(![Juicescript.argument_type.VARIABLE, Juicescript.argument_type.LITERAL].includes(actual_type)){
-				this.error(this.command.name + ", argument " + number + ": expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
+				error_argument(number, "expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
 			}
 			return;
 		}
@@ -328,7 +328,7 @@ class Juicescript_runner {
 		
 		// COMPARE AGAINST PARSABLE TYPES //
 		if(actual_type !== type){
-			this.error(this.command.name + ", argument " + number + ": expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
+			error_argument(number, "expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
 		}
 	}
 	
@@ -469,31 +469,11 @@ class Juicescript_runner {
 		let value = this.variable_get(variable);
 		
 		
-		// CHECK SPECIAL CASES //
-		// null
-		if(value === null){
-			return Juicescript.variable_type.NULL;
-		}
+		// RETURN TYPE //
+		// get type
+		let type = this.data_type(value);
 		
-		
-		// CONVERT TO ENUM FROM JAVASCRIPT TYPE //
-		// get javascript's type
-		let js_type = typeof value;
-		
-		// try to convert to enum
-		let type = ({
-			"number": Juicescript.variable_type.NUM,
-			"boolean": Juicescript.variable_type.BOOl,
-			"string": Juicescript.variable_type.STR,
-		})[js_type] ?? null;
-		
-		// lookup error?
-		if(type === null){
-			throw "unable to convert javascript type '" + js_type + "'";
-		}
-		
-		
-		// RETURN //
+		// return
 		return type;
 	}
 	
@@ -545,6 +525,38 @@ class Juicescript_runner {
 	}
 	
 	/*
+		HELPER: Get data type of VALUE
+	*/
+	data_type(value){
+		// CHECK SPECIAL CASES //
+		// null
+		if(value === null){
+			return Juicescript.data_type.NULL;
+		}
+		
+		
+		// CONVERT TO ENUM FROM JAVASCRIPT TYPE //
+		// get javascript's type
+		let js_type = typeof value;
+		
+		// try to convert to enum
+		let type = ({
+			"number": Juicescript.data_type.NUM,
+			"boolean": Juicescript.data_type.BOOL,
+			"string": Juicescript.data_type.STR,
+		})[js_type] ?? null;
+		
+		// lookup error?
+		if(type === null){
+			throw "unable to convert javascript type '" + js_type + "'";
+		}
+		
+		
+		// RETURN //
+		return type
+	}
+	
+	/*
 		HELPER: Express VALUE as a string
 	*/
 	stringify(value){
@@ -556,6 +568,18 @@ class Juicescript_runner {
 		
 		// TRY JAVASCRIPT'S `toString()` //
 		return value.toString();
+	}
+	
+	/*
+		HELPER: Automagically produce error messages
+	*/
+	warning_argument(number, text){
+		// construct warning message
+		this.warning(this.command.name + ", argument " + number + ": " + text);
+	}
+	error_argument(number, text){
+		// construct error message
+		this.error(this.command.name + ", argument " + number + ": " + text);
 	}
 	
 	/*
