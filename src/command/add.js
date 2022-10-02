@@ -26,7 +26,19 @@ Juicescript.command_define({
 		
 		// ADD OTHER VALUES //
 		for(var q = 2; q <= runner.command.argument.length; q++){
-			value += runner.argument_value(q);
+			// get value to add
+			let add = runner.argument_value(q);
+			
+			// validate data type
+			let data_type = runner.data_type(add);
+			if(data_type !== Juicescript.data_type.NUM && data_type !== Juicescript.data_type.STR){
+				// ignore with warning
+				runner.warning_argument(q, "invalid data type " + Juicescript.data_type.name(data_type));
+				continue;
+			}
+			
+			// do calculation
+			value += add;
 		}
 		
 		
