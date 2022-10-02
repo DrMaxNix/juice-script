@@ -16,12 +16,10 @@ class Juicescript_runner {
 	*/
 	run(){
 		// RESET //
-		// command counter
-		this.counter = 0;
-		
-		// scope and variable stack
+		// stack for command counter, scope and variable list
 		this.stack = [{
 			scope: null,
+			counter: 0,
 			variable: {}
 		}];
 		
@@ -70,8 +68,7 @@ class Juicescript_runner {
 		
 		// TRY AS USER-DEFINED COMMAND //
 		if(Object.keys(this.tree.scope).includes(this.command.name)){
-			//*/ TODO: enter scope
-			/**/this.error("user-defined: " + this.command.name);
+			this.scope_enter();
 			return;
 		}
 		
@@ -95,9 +92,10 @@ class Juicescript_runner {
 		// IN USER-DEFINED SCOPE //
 		if(this.scope !== null){
 			// return from scope
-			//*/ TODO: return from scope
-			/**/this.error("return from scope");
-			return false;
+			this.scope_return();
+			
+			// check again for new scope
+			return this.handle_command_list_end();
 		}
 		
 		
@@ -112,12 +110,122 @@ class Juicescript_runner {
 		this.command = this.scope_tree.command[this.counter];
 	}
 	
+	/*
+		HELPER: Handle entering another scope by user command
+	*/
+	scope_enter(){
+		// VALIDATE ARGUMENTS //
+		// argument count
+		this.argument_validate_count(this.tree.scope[this.command.name].parameter_count);
+		
+		// they must all be of type 'value'
+		for(var q = 1; q <= this.command.argument.length; q++){
+			this.argument_validate_type(q, Juicescript.argument_type.VALUE);
+		}
+		
+		
+		// RESOLVE ARGUMENTS //
+		// resolve to value
+		let argument_value_list = [];
+		for(var q = 1; q <= this.command.argument.length; q++){
+			argument_value_list.push(this.argument_value(q));
+		}
+		
+		// resolve to absolute variable
+		let argument_variable_list = [];
+		for(var q = 0; q < this.command.argument.length; q++){
+			if(this.command.argument[q].type === Juicescript.argument_type.VARIABLE){
+				// variable, add absolute variable
+				argument_variable_list.push(this.argument_variable(q + 1));
+				
+			} else {
+				// literal, add null
+				argument_variable_list.push(null);
+			}
+		}
+		
+		
+		// PUSH NEW LAYER TO STACK //
+		this.stack.push({
+			scope: this.command.name,
+			counter: 0,
+			variable: {},
+			argument_variable: argument_variable_list
+		});
+		
+		
+		// FILL IN PARAMETER VARIABLES //
+		for(var q = 0; q < this.scope_tree.parameter.length; q++){
+			// get parameter name
+			let parameter_name = this.scope_tree.parameter[q].name;
+			
+			// get argument value
+			let argument_value = argument_value_list[q];
+			
+			// store as variable in current scope
+			this.variable_set({
+				name: parameter_name,
+				index: []
+			}, argument_value);
+		}
+	}
 	
 	/*
-		GETTER: Return name of current scope (top of stack)
+		HELPER: Handle returning back to previous scope
+	*/
+	scope_return(){
+		// REMEMBER VALUES TO TAKE OVER //
+		let take_over_list = [];
+		for(var q = 0; q < this.scope_tree.parameter.length; q++){
+			// make sure argument was set when called
+			if(q >= this.stack_top.argument_variable.length) continue;
+			
+			// make sure parameter is read-write
+			if(!this.scope_tree.parameter[q].reference) continue;
+			
+			// make sure the argument was a variable
+			if(this.stack_top.argument_variable[q] === null) continue;
+			
+			// get parameter name
+			let parameter_name = this.scope_tree.parameter[q].name;
+			
+			// get variable's final value
+			let variable_value = this.variable_get({
+				name: parameter_name,
+				index: []
+			});
+			
+			// add to list
+			take_over_list.push({variable: this.stack_top.argument_variable[q], value: variable_value});
+		}
+		
+		
+		// POP LAYER FROM STACK //
+		this.stack.pop();
+		
+		
+		// TAKE OVER READ-WRITE PARAMETERS //
+		for(var one_reference of take_over_list){
+			// set variable's new value
+			this.variable_set(one_reference.variable, one_reference.value);
+		}
+	}
+	
+	/*
+		GETTER: Return top/bottom of stack
+	*/
+	get stack_top(){
+		return this.stack[this.stack.length - 1];
+	}
+	get stack_bottom(){
+		return this.stack[0];
+	}
+	
+	/*
+		GETTER: Return name of current scope
 	*/
 	get scope(){
-		return this.stack[this.stack.length - 1].scope;
+		return this.stack_top.scope;
 	}
 	
 	/*
@@ -137,6 +245,16 @@ class Juicescript_runner {
 		
 		// return scope
 		return this.tree.scope[this.scope];
+	}
+	
+	/*
+		GETTER / SETTER: Return current command counter
+	*/
+	get counter(){
+		return this.stack_top.counter;
+	}
+	set counter(value){
+		this.stack_top.counter = value;
 	}
 	
 	/*
@@ -219,9 +337,9 @@ class Juicescript_runner {
 	*/
 	argument(number){
 		// GET WANTED ARGUMENT //
-		// make sure this argument number exists
+		// fallback for argument not existing
 		if(this.command.argument.length < number){
-			throw "unable to extract value of argument " + number + ", command " + this.command.name + " (not defined)";
+			return {type: Juicescript.argument_type.LITERAL, value: null};
 		}
 		
 		// get argument object
@@ -318,17 +436,15 @@ class Juicescript_runner {
 	*/
 	variable_get(variable){
 		// FIND VARIABLE IN STACK //
-		// check if global
-		/**/let is_global = false;
+		// get its scope's full variable list
+		let variable_list;
+		if(this.variable_is_global(variable)){
+			variable_list = this.stack_bottom.variable;
+		} else {
+			variable_list = this.stack_top.variable;
+		}
 		
-		// get index on stack
-		let stack_index = this.stack.length - 1;
-		if(is_global) stack_index = 0;
-		
-		// get index' full variable list
-		let variable_list = this.stack[stack_index].variable;
-		
-		// try to load value from stack
+		// try to load value from list
 		let value = null;
 		if(Object.keys(variable_list).includes(variable.name)){
 			value = variable_list[variable.name];
@@ -336,7 +452,9 @@ class Juicescript_runner {
 		
 		
 		// APPLY INDEXES //
+		//*/ TODO: apply indexes
 		/**/if(variable.index.length > 0) this.warning("yet to be implemented");
+		/**/if(value === undefined) value = null;
 		
 		
 		// RETURN VALUE //
@@ -384,18 +502,36 @@ class Juicescript_runner {
 	*/
 	variable_set(variable, value){
 		// FIND VARIABLE IN STACK //
-		// check if global
-		/**/let is_global = false;
+		// get its scope's full variable list
+		let variable_list;
+		if(this.variable_is_global(variable)){
+			variable_list = this.stack_bottom.variable;
+		} else {
+			variable_list = this.stack_top.variable;
+		}
 		
-		// get index on stack
-		let stack_index = this.stack.length - 1;
-		if(is_global) stack_index = 0;
-		
-		// get index' full variable list
-		let variable_list = this.stack[stack_index].variable;
-		
-		// set value on stack
+		// set value on list
+		//*/ TODO: apply indexes
 		variable_list[variable.name] = value;
+	}
+	
+	/*
+		VARIABLE HELPER: Check if variable is global
+	*/
+	variable_is_global(variable){
+		// CHECK IF IN ROOT SCOPE //
+		if(this.scope === null){
+			// can't be global in here
+			return false;
+		}
+		
+		
+		// CHECK IF IN LIST OF GLOBAL VARIABLE NAMES //
+		// get list
+		let global_list = this.scope_tree.global;
+		
+		// check
+		return global_list.includes(variable.name);
 	}
 	
 	/*
