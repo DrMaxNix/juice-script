@@ -240,9 +240,19 @@ class Juicescript_parser {
 		
 		
 		// ADD TO LIST OF GLOBAL VARIABLES //
+		for_add_global_parameter:
 		for(var one_parameter of parameter_list){
 			// get variable name from parameter
 			let name = one_parameter.name;
+			
+			// warn when making parameter variables global
+			for(var one_scope_parameter of this.scope_tree.parameter){
+				if(one_scope_parameter.name === name){
+					// ignore with warning
+					this.warning("overwriting parameter '" + name + "' by making it global");
+					continue for_add_global_parameter;
+				}
+			}
 			
 			// check if already in the list
 			if(this.scope_tree.global.includes(name)){
