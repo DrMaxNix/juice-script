@@ -120,7 +120,7 @@ class Juicescript_parser {
 		
 		
 		// GET LIST OF PARAMETERS //
-		let parameter_list = this.parse_parameter_list();
+		let {list: parameter_list, count: parameter_count} = this.parse_parameter_list();
 		
 		
 		// CAN ONLY BE USED IN ROOT SCOPE //
@@ -156,8 +156,9 @@ class Juicescript_parser {
 		// create empty scope from template
 		this.scope_tree = this.scope_tree_template();
 		
-		// store parameter list
+		// store parameter list and count
 		this.scope_tree.parameter = parameter_list;
+		this.scope_tree.parameter_count = parameter_count;
 	}
 	
 	/*
@@ -220,7 +221,7 @@ class Juicescript_parser {
 	*/
 	parse_global(){
 		// GET LIST OF PARAMETERS //
-		let parameter_list = this.parse_parameter_list({strict: true});
+		let {list: parameter_list} = this.parse_parameter_list({strict: true});
 		
 		
 		// MAKE SURE WE ARE INSIDE OF A SCOPE //
@@ -350,6 +351,7 @@ class Juicescript_parser {
 		
 		let parameter_list = [];
 		let had_optional = false;
+		let first_optional = null;
 		while(!this.is_at_end()){
 			// IS NEXT TOKEN A DELIMITER? //
 			if(this.match_type(Juicescript.token_type.DELIMITER)){
@@ -406,6 +408,9 @@ class Juicescript_parser {
 				// if not allowed, ignore with error
 				if(options.strict) this.error_token("modifier not allowed:");
 				
+				// store number if this is the first optional parameter
+				if(!had_optional) first_optional = parameter_list.length;
+				
 				// remember
 				optional = true;
 				had_optional = true;
@@ -431,7 +436,14 @@ class Juicescript_parser {
 		
 		
 		// RETURN //
-		return parameter_list;
+		// determine count boundaries
+		let parameter_count = {
+			min: (first_optional ?? parameter_list.length),
+			max: parameter_list.length
+		};
+		
+		// return object
+		return {list: parameter_list, count: parameter_count};
 	}
 	
 	/*
