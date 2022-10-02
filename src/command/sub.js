@@ -23,6 +23,14 @@ Juicescript.command_define({
 		// get its value
 		let value = runner.variable_get(variable);
 		
+		// validate data type
+		let data_type = runner.data_type(value);
+		if(data_type !== Juicescript.data_type.NUM){
+			// ignore with warning
+			runner.warning_argument(1, "expected data type NUM, but got " + Juicescript.data_type.name(data_type));
+			return;
+		}
+		
 		
 		// SUBTRACT OTHER VALUES //
 		for(var q = 2; q <= runner.command.argument.length; q++){

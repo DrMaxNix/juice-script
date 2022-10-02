@@ -23,6 +23,14 @@ Juicescript.command_define({
 		// get its value
 		let value = runner.variable_get(variable);
 		
+		// validate data type
+		let data_type = runner.data_type(value);
+		if(data_type !== Juicescript.data_type.NUM && data_type !== Juicescript.data_type.STR){
+			// ignore with warning
+			runner.warning_argument(1, "expected data type NUM or STR, but got " + Juicescript.data_type.name(data_type));
+			return;
+		}
+		
 		
 		// ADD OTHER VALUES //
 		for(var q = 2; q <= runner.command.argument.length; q++){
