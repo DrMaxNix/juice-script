@@ -50,7 +50,7 @@ class Juicescript {
 		// boolean
 		"BOOL",
 		
-		// string
+		// simple values
 		"NUM", "STR"
 	);
 	
