@@ -320,7 +320,7 @@ class Juicescript_runner {
 		// value
 		if(type === Juicescript.argument_type.VALUE){
 			if(![Juicescript.argument_type.VARIABLE, Juicescript.argument_type.LITERAL].includes(actual_type)){
-				error_argument(number, "expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
+				this.error_argument(number, "expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
 			}
 			return;
 		}
@@ -328,7 +328,7 @@ class Juicescript_runner {
 		
 		// COMPARE AGAINST PARSABLE TYPES //
 		if(actual_type !== type){
-			error_argument(number, "expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
+			this.error_argument(number, "expected " + Juicescript.argument_type.name(type) + ", but got " + Juicescript.argument_type.name(actual_type));
 		}
 	}
 	
