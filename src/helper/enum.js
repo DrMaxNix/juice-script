@@ -25,4 +25,11 @@ class Juicescript_helper_enum {
 	name(value){
 		return Object.keys(this).find(key => this[key] === value);
 	}
+	
+	/*
+		GETTER: Find enum by name
+	*/
+	find(name){
+		return this[name.toUpperCase()] ?? null;
+	}
 }
