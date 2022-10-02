@@ -178,7 +178,7 @@ mycommand1 42 $test
 
 ## RETURN, END, ETC. ##
 # halt the program
-halt
+halt|stop
 
 # return from command to parent scope
 # halt program in root scope
