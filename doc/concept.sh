@@ -56,7 +56,6 @@ typ|type $1
 # cast $1 to type-string stored in $2 / to num
 cst|cast $1 $2
 cst|cast $1 "num"
-cst|cast $1 num
 
 # use contents of a var as var-name (todo: is there a more assembly-like way for this?)
 ${$name}
@@ -235,7 +234,7 @@ rnd|rand|random $1 5 13
 
 ## STRING MANIPULATION ##
 # get number $1 as string
-cst|cast $1 str
+cst|cast $1 "str"
 
 # get utf-8 char with id $1 => $1
 chr $1
