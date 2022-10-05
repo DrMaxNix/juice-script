@@ -5,6 +5,8 @@
 		<link rel="shortcut icon" href="/icon.png">
 		<title>Juicescript dev env</title>
 		
+		<meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=0">
+		
 		<link rel="stylesheet" href="/prism/prism-onedark.css">
 		<link rel="stylesheet" href="/prism/prism-line-numbers.css">
 		<link rel="stylesheet" href="/prism/prism-live.css">
