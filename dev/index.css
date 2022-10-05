@@ -1,0 +1,152 @@
+:root {
+	--onedark-bg: #21252b;
+	--onedark-bg-light: #2c313a;
+	--onedark-white: #c5cad3;
+	--onedark-gray: #828997;
+	--onedark-gray-dark: #5c6370;
+	--onedark-gray-dark-dark: #454b54;
+	--onedark-red: #e06c75;
+	--onedark-orange: #d19a66;
+	--onedark-yellow: #e5c07b;
+	--onedark-green: #98c379;
+	--onedark-cyan: #56b6c2;
+	--onedark-blue: #61afef;
+	--onedark-purple: #c678dd;
+}
+html, body {
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+body {
+	background-color: var(--onedark-bg);
+	padding: 2em;
+}
+
+
+span.line {
+	display: block;
+	color: var(--onedark-white);
+}
+span.line.stderr-debug { color: var(--onedark-green); }
+span.line.stderr-info { color: var(--onedark-blue); }
+span.line.stderr-warning { color: var(--onedark-orange); }
+span.line.stderr-error { color: var(--onedark-red); }
+span.line.stderr-javascript { color: var(--onedark-purple); }
+
+
+
+
+
+div.collection {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem;
+}
+
+div.collection div.item {
+	flex-basis: 50%;
+	flex: 20rem;
+	
+	height: calc(100vh - 4em);
+	max-width: 100%;
+	
+	position: relative;
+	
+	display: flex;
+	flex-flow: column nowrap;
+	
+	margin: 0rem;
+	padding: 0rem;
+}
+
+@media only screen and (max-width: 1200px) {
+	div.collection div.item {
+		flex-basis: 100%;
+		height: auto;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+.button {
+	align-items: center;
+	
+	padding: 1rem 1.5rem;
+	width: fit-content;
+	
+	color: var(--onedark-white);
+	
+	background-color: var(--onedark-bg-light);
+}
+
+.button:not(.one-line) {
+	display: inline-flex;
+	margin: 1rem 1rem 0rem 0rem;
+}
+.button.one-line {
+	display: flex;
+	margin: 0rem 0rem 1rem 0rem;
+}
+
+.button:hover {
+	cursor: pointer;
+	background-color: var(--onedark-gray-dark-dark);
+}
+
+.button .text {
+	display: inline-flex;
+	flex-flow: column;
+	margin-left: 1rem;
+}
+.button img.icon {
+	height: 1.5rem;
+}
+.button .extra {
+	color: var(--onedark-gray);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+div.collection div.item.editor > div.prism-live {
+	height: 100%;
+}
+
+
+
+
+
+
+div.collection div.item.console div.controls {
+	padding-bottom: 1rem;
+}
+#console {
+	margin: 0px;
+	padding: 1rem;
+	overflow: auto;
+	font-size: 1rem;
+	
+	height: 100%;
+	overflow: auto;
+	
+	background-color: var(--onedark-bg-light);
+}
