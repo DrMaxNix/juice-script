@@ -61,6 +61,12 @@ div.collection div.item {
 }
 
 @media only screen and (max-width: 1200px) {
+	html, body {
+		overflow-y: visible;
+	}
+	#console {
+		overflow-y: visible;
+	}
 	div.collection div.item {
 		flex-basis: 100%;
 		height: auto;
@@ -150,7 +156,6 @@ div.collection div.item.console div.controls {
 	font-size: 1rem;
 	
 	height: 100%;
-	overflow: auto;
 	
 	background-color: var(--onedark-bg-light);
 }
