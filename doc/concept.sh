@@ -155,6 +155,9 @@ drw|draw|echo "bla" "bli" "blub"
 # print "blabliblub", await user response (until newline/enter) and return entered line as $1
 ask $1 "bla" "bli" "blub"
 
+# pretty print the value stored in $1
+deb|debug $1
+
 
 
 ## GRAPHICAL OUTPUT ##
