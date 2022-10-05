@@ -64,6 +64,10 @@ div.collection div.item {
 	div.collection div.item {
 		flex-basis: 100%;
 		height: auto;
+		min-height: 8rem;
+	}
+	#console {
+		min-height: 8rem;
 	}
 }
 
