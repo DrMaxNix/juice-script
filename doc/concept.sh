@@ -43,6 +43,9 @@ move|mov|set $1 $2
 # use $1 from root scope in current scope
 glob|global|pub|public $1
 
+# use all variables from root scope in current scope
+glob|global|pub|public *
+
 # vartypes
 null				# null (internal: null)
 true|false			# bool (internal: boolean)
