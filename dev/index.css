@@ -52,6 +52,7 @@ div.collection div.item {
 	max-width: 100%;
 	
 	position: relative;
+	overflow: hidden;
 	
 	display: flex;
 	flex-flow: column nowrap;
@@ -62,9 +63,6 @@ div.collection div.item {
 
 @media only screen and (max-width: 1200px) {
 	html, body {
-		overflow-y: visible;
-	}
-	#console {
 		overflow-y: visible;
 	}
 	div.collection div.item {
