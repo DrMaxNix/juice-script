@@ -29,6 +29,10 @@ let juicescript = new Juicescript({
 	}
 });
 
+document.addEventListener("DOMContentLoaded", function(){
+	button_run();
+});
+
 function button_run(){
 	// clear console
 	document.getElementById("console").innerHTML = "";
