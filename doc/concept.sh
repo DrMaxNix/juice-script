@@ -40,7 +40,7 @@ mov $1 42; typ $1; echo $1
 # $2 => $1
 move|mov|set $1 $2
 
-# load $1 from root scope into current scope
+# use $1 from root scope in current scope
 glob|global|pub|public $1
 
 # vartypes
