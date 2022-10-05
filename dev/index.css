@@ -62,7 +62,11 @@ div.collection div.item {
 
 @media only screen and (max-width: 1200px) {
 	html, body {
+<<<<<<< HEAD
 		overflow-y: visible;
+=======
+		overflow-y: auto;
+>>>>>>> 13538872284d3be1ebbdc6cc70a8155d78ac3b03
 	}
 	#console {
 		overflow-y: visible;
