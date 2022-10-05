@@ -1,0 +1,257 @@
+# rule 110 implementation by thetek
+
+
+
+### config ###
+
+set $max_iter 32
+
+### *sigh* ###
+
+jmp 'code'
+
+### utils ###
+
+# set utils
+
+:set_new
+  set $_set_new_var '__set_'
+  add $_set_new_var $set_new_id
+  add $_set_new_var '_len'
+  set ${$_set_new_var} 0
+jmp $set_new_ret
+
+:set_add
+  set $set_contains_id $set_add_id
+  set $set_contains_check $set_add_item
+  set $set_contains_ret '_set_add_set_contains_ret_a'
+  jmp 'set_contains'
+  :_set_add_set_contains_ret_a
+  if $ret == true
+    jmp '_set_add_end'
+  set $_set_add_len '__set_'
+  add $_set_add_len $set_add_id
+  add $_set_add_len '_len'
+  set $_set_add_pos '__set_'
+  add $_set_add_pos $set_add_id
+  add $_set_add_pos '_item_'
+  add $_set_add_pos ${$_set_add_len}
+  set ${$_set_add_pos} $set_add_item
+  add ${$_set_add_len} 1
+  :_set_add_end
+jmp $set_add_ret
+
+:set_len
+  set $_set_len_len '__set_'
+  add $_set_len_len $set_len_id
+  add $_set_len_len '_len'
+  set $ret ${$_set_len_len}
+jmp $set_len_ret
+
+:set_get
+  set $_set_get_item '__set_'
+  add $_set_get_item $set_get_id
+  add $_set_get_item '_item_'
+  add $_set_get_item $set_get_pos
+  set $ret ${$_set_get_item}
+jmp $set_get_ret
+
+:set_contains
+  set $_set_contains_i 0
+  set $_set_contains_len '__set_'
+  add $_set_contains_len $set_contains_id
+  add $_set_contains_len '_len'
+  :_set_contains_loop
+    if $_set_contains_i >= ${$_set_contains_len}
+      jmp '_set_contains_loopend'
+    set $_set_contains_item '__set_'
+    add $_set_contains_item $set_contains_id
+    add $_set_contains_item '_item_'
+    add $_set_contains_item $_set_contains_i
+    if ${$_set_contains_item} == $set_contains_check
+      jmp '_set_contains_found'
+    add $_set_contains_i 1
+    jmp '_set_contains_loop'
+  :_set_contains_loopend
+  set $ret false
+jmp $set_contains_ret
+  :_set_contains_found
+  set $ret true
+jmp $set_contains_ret
+
+:set_print
+  set $_set_print_i 0
+  set $_set_print_len '__set_'
+  add $_set_print_len $set_print_id
+  add $_set_print_len '_len'
+  :_set_print_loop
+    if $_set_print_i >= ${$_set_print_len}
+      jmp '_set_print_loopend'
+    set $_set_print_item '__set_'
+    add $_set_print_item $set_print_id
+    add $_set_print_item '_item_'
+    add $_set_print_item $_set_print_i
+    echo ${$_set_print_item}
+    add $_set_print_i 1
+    jmp '_set_print_loop'
+  :_set_print_loopend
+jmp $set_print_ret
+
+### code ###
+
+:code
+
+# create new set 'state' with item -1
+set $set_new_id 'state'
+set $set_new_ret 'set_new_ret_a'
+jmp 'set_new'
+:set_new_ret_a
+set $set_add_id 'state'
+set $set_add_item -1
+set $set_add_ret 'set_add_ret_a'
+jmp 'set_add'
+:set_add_ret_a
+
+# main loop
+set $mainloop_i 0
+:mainloop
+  if $mainloop_i >= $max_iter
+    jmp 'mainloop_end'
+  set $display_ret 'display_ret_a'
+  jmp 'display'
+  :display_ret_a
+  set $generate_ret 'generate_ret_a'
+  jmp 'generate'
+  :generate_ret_a
+  set $swap_ret 'swap_ret_a'
+  jmp 'swap'
+  :swap_ret_a
+  add $mainloop_i 1
+  jmp 'mainloop'
+:mainloop_end
+jmp 'end'
+
+# display subroutine
+:display
+  set $_display_buf ''
+  set $_display_loop_i $max_iter
+  mul $_display_loop_i -1
+  
+  #set $set_print_id 'state'
+  #set $set_print_ret 'set_print_ret_a'
+  #jmp 'set_print'
+  #:set_print_ret_a
+
+  :_display_loop
+    set $set_contains_id 'state'
+    set $set_contains_check $_display_loop_i
+    set $set_contains_ret 'set_contains_ret_a'
+    jmp 'set_contains'
+    :set_contains_ret_a
+    if $ret == true
+      add $_display_buf '*'
+    if $ret == false
+      add $_display_buf ' '
+    add $_display_loop_i 1
+    if $_display_loop_i >= 0
+      jmp '_display_loopend'
+    add $_display_buf ' '
+    jmp '_display_loop'
+  :_display_loopend
+  echo $_display_buf
+jmp $display_ret
+
+# generate subroutine
+:generate
+  set $set_new_id 'next_state'
+  set $set_new_ret 'set_new_ret_b'
+  jmp 'set_new'
+  :set_new_ret_b
+  set $set_len_id 'state'
+  set $set_len_ret 'set_len_ret_a'
+  jmp 'set_len'
+  :set_len_ret_a
+  set $_generate_len $ret
+  set $_generate_i 0
+  :_generate_loop
+    if $_generate_i >= $_generate_len
+      jmp '_generate_loopend'
+    set $set_get_id 'state'
+    set $set_get_pos $_generate_i
+    set $set_get_ret 'set_get_ret_a'
+    jmp 'set_get'
+    :set_get_ret_a
+    set $_generate_agent1 $ret
+    set $_generate_agent2 $ret
+    add $_generate_agent1 1
+    set $set_contains_id 'state'
+    set $set_contains_check $_generate_agent1
+    set $set_contains_ret 'set_contains_ret_b'
+    jmp 'set_contains'
+    :set_contains_ret_b
+    if $ret == true
+      jmp '_generate_cont1'
+    sub $_generate_agent1 1
+    set $set_add_id 'next_state'
+    set $set_add_item $_generate_agent1
+    set $set_add_ret 'set_add_ret_b'
+    jmp 'set_add'
+    :set_add_ret_b
+    :_generate_cont1
+    sub $_generate_agent2 1
+    set $set_contains_id 'state'
+    set $set_contains_check $_generate_agent2
+    set $set_contains_ret 'set_contains_ret_c'
+    jmp 'set_contains'
+    :set_contains_ret_c
+    if $ret == true
+      jmp '_generate_cont2'
+    set $set_add_id 'next_state'
+    set $set_add_item $_generate_agent2
+    set $set_add_ret 'set_add_ret_c'
+    jmp 'set_add'
+    :set_add_ret_c
+    add $_generate_agent2 1
+    set $set_add_id 'next_state'
+    set $set_add_item $_generate_agent2
+    set $set_add_ret 'set_add_ret_d'
+    jmp 'set_add'
+    :set_add_ret_d
+    :_generate_cont2
+    add $_generate_i 1
+    jmp '_generate_loop'
+  :_generate_loopend
+jmp $generate_ret
+
+# swap subroutine
+:swap
+  set $set_new_id 'state'
+  set $set_new_ret 'set_new_ret_c'
+  jmp 'set_new'
+  :set_new_ret_c
+  set $set_len_id 'next_state'
+  set $set_len_ret 'set_len_ret_b'
+  jmp 'set_len'
+  :set_len_ret_b
+  set $_swap_len $ret
+  set $_swap_i 0
+  :_swap_loop
+    if $_swap_i >= $_swap_len
+      jmp '_swap_loopend'
+    set $set_get_id 'next_state'
+    set $set_get_pos $_swap_i
+    set $set_get_ret 'set_get_ret_b'
+    jmp 'set_get'
+    :set_get_ret_b
+    set $set_add_id 'state'
+    set $set_add_item $ret
+    set $set_add_ret 'set_add_ret_e'
+    jmp 'set_add'
+    :set_add_ret_e
+    add $_swap_i 1
+    jmp '_swap_loop'
+  :_swap_loopend
+jmp $swap_ret
+
+# end
+:end
