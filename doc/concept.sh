@@ -36,6 +36,15 @@ mov $1 42; typ $1; echo $1
 
 
 
+## PARSER CONSTANTS ##
+# the parser will replace these constants by their respective values
+
+# current line number
+__LINE__
+
+
+
+
 ## VARIABLES ##
 # $2 => $1
 move|mov|set $1 $2
