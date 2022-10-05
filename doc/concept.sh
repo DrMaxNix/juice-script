@@ -65,6 +65,12 @@ ${$name}
 
 
 
+## BOOLEAN LOGIC ##
+# negate the value stored in $1
+neg|negate|inv|invert $1
+
+
+
 ## MATH ##
 # $1 + $2 + ... => $1
 add $1 $2 ...
@@ -98,6 +104,9 @@ ceil $1
 
 # round down to the last integer => $1
 floor $1
+
+# invert the value stored in $1
+neg|negate|inv|invert $1
 
 
 
