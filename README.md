@@ -14,11 +14,11 @@ Basic assembly-like high-level programming language
 set $q 0
 
 loop:
-    echo $q
-    add $q 1
+	echo $q
+	add $q 1
 
 if $q < 10
-    jump "loop"
+	jump "loop"
 ```
 
 ```asm
