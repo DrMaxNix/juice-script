@@ -63,7 +63,14 @@
 	<body>
 		<div class="collection">
 			<div class="item editor">
-				<textarea id="editor" class="prism-live line-numbers language-ruby fill"></textarea>
+				<textarea id="editor" class="prism-live line-numbers language-ruby fill">set $q 0
+
+loop:
+	echo $q
+	add $q 1
+if $q < 10
+	jump "loop"
+</textarea>
 			</div>
 			
 			<div class="item console">
