@@ -1,0 +1,34 @@
+def fizzbuzz $num
+	set $mod15 $num
+	mod $mod15 15
+	if $mod15 != 0; jmp "nomod15"
+	echo "fizzbuzz"
+	return
+	nomod15:
+	
+	set $mod3 $num
+	mod $mod3 3
+	if $mod3 != 0; jmp "nomod3"
+	echo "fizz"
+	return
+	nomod3:
+	
+	set $mod5 $num
+	mod $mod5 5
+	if $mod5 != 0; jmp "nomod5"
+	echo "buzz"
+	return
+	nomod5:
+	
+	echo $num
+end
+
+
+
+set $q 1
+
+loop:
+	fizzbuzz $q
+	add $q 1
+if $q <= 30
+	jump "loop"
