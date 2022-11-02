@@ -10,7 +10,7 @@ Basic assembly-like high-level programming language
 
 
 ## Example
-```asm
+```ruby
 set $q 0
 
 loop:
@@ -21,7 +21,7 @@ if $q < 10
 	jump "loop"
 ```
 
-```asm
+```
 0
 1
 2
