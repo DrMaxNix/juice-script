@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/DrMaxNix/juice-script/blob/main/LICENSE)
 [![Maintaner](https://img.shields.io/badge/maintainer-DrMaxNix-orange)](https://www.drmaxnix.de)
 
-Basic assembly-like high-level programming language
+Educational programming language to teach Assembly to beginners
 
 
 
