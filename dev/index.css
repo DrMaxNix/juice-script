@@ -1,18 +1,3 @@
-:root {
-	--onedark-bg: #21252b;
-	--onedark-bg-light: #2c313a;
-	--onedark-white: #c5cad3;
-	--onedark-gray: #828997;
-	--onedark-gray-dark: #5c6370;
-	--onedark-gray-dark-dark: #454b54;
-	--onedark-red: #e06c75;
-	--onedark-orange: #d19a66;
-	--onedark-yellow: #e5c07b;
-	--onedark-green: #98c379;
-	--onedark-cyan: #56b6c2;
-	--onedark-blue: #61afef;
-	--onedark-purple: #c678dd;
-}
 html, body {
 	margin: 0px;
 	padding: 0px;
