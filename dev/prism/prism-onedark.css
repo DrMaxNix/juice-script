@@ -64,31 +64,42 @@ pre[class*="language-"] {
 	color: #F00;
 }
 
+.token.null,
 .token.boolean,
-.token.number,
-.token.function {
+.token.number {
 	color: var(--onedark-orange);
 }
 
 .token.property,
-.token.class-name,
-.token.constant,
 .token.symbol {
+	color: #00F;
+}
+
+.token.constant {
+	color: var(--onedark-orange);
+}
+
+.token.class-name {
 	color: var(--onedark-yellow);
 }
 
 .token.selector,
 .token.important,
-.token.atrule,
-.token.keyword,
-.token.builtin {
+.token.atrule {
 	color: var(--onedark-purple);
+}
+
+.token.keyword {
+	color: var(--onedark-cyan);
+}
+
+.token.custom-command, .token.method-definition .token.function {
+	color: var(--onedark-blue);
 }
 
 .token.string,
 .token.char,
-.token.attr-value,
-.token.regex {
+.token.attr-value {
 	color: var(--onedark-green);
 }
 

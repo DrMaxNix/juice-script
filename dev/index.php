@@ -99,7 +99,7 @@
 	<body>
 		<div class="collection">
 			<div class="item editor">
-				<textarea id="editor" class="prism-live line-numbers language-ruby fill">set $q 0
+				<textarea id="editor" class="prism-live line-numbers language-juice fill">set $q 0
 
 loop:
 	echo $q
