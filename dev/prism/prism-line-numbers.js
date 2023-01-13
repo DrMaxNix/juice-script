@@ -195,10 +195,6 @@
 	});
 
 	Prism.hooks.add('complete', function (env) {
-		if (!env.code) {
-			return;
-		}
-
 		var code = /** @type {Element} */ (env.element);
 		var pre = /** @type {HTMLElement} */ (code.parentNode);
 
@@ -221,9 +217,10 @@
 		code.classList.remove(PLUGIN_NAME);
 		// Add the class 'line-numbers' to the <pre>
 		pre.classList.add(PLUGIN_NAME);
-
+		
 		var match = env.code.match(NEW_LINE_EXP);
 		var linesNum = match ? match.length + 1 : 1;
+		
 		var lineNumbersWrapper;
 
 		var lines = new Array(linesNum + 1).join('<span></span>');
