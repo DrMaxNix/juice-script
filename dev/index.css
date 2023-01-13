@@ -6,6 +6,7 @@ html, body {
 body {
 	background-color: var(--onedark-bg);
 	padding: 2em;
+	font-family: "Ubuntu";
 }
 
 
